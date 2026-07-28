@@ -1,15 +1,10 @@
 /*
 ============================================================
  Mini Engine Simulator
- Version : v0.0.1c
+ Version : v0.0.3
  Fichier : style.css
 ============================================================
 */
-
-
-/* =========================
-        VARIABLES
-========================= */
 
 
 :root{
@@ -28,11 +23,6 @@
 
 }
 
-
-
-/* =========================
-        RESET
-========================= */
 
 
 *{
@@ -55,7 +45,7 @@ body{
 
     background:var(--background);
 
-    color:var(--white);
+    color:white;
 
     height:100vh;
 
@@ -70,7 +60,7 @@ body{
 
 
 /* =========================
-        TOP BAR
+        BARRE HAUTE
 ========================= */
 
 
@@ -108,6 +98,8 @@ body{
 
     font-size:20px;
 
+    cursor:pointer;
+
 }
 
 
@@ -139,11 +131,6 @@ body{
 
 }
 
-
-
-/* =========================
-        CADRANS
-========================= */
 
 
 .gauge{
@@ -184,15 +171,8 @@ body{
 
     font-weight:bold;
 
-    letter-spacing:2px;
-
 }
 
-
-
-/* =========================
-      RAPPORT ENGAGE
-========================= */
 
 
 #gearDisplay{
@@ -209,9 +189,9 @@ body{
 
     display:flex;
 
-    justify-content:center;
-
     align-items:center;
+
+    justify-content:center;
 
     font-size:52px;
 
@@ -254,13 +234,13 @@ footer{
 
     height:80px;
 
-    background:var(--button);
-
-    color:white;
-
     border:none;
 
     border-radius:12px;
+
+    background:var(--button);
+
+    color:white;
 
     font-size:22px;
 
@@ -268,7 +248,9 @@ footer{
 
 
 
-.controlButton:active{
+.controlButton:active,
+
+.gearButton:active{
 
     background:var(--orange);
 
@@ -292,31 +274,18 @@ footer{
 
     height:60px;
 
-    background:var(--button);
-
-    color:white;
-
     border:none;
 
     border-radius:10px;
+
+    background:var(--button);
+
+    color:white;
 
     font-size:30px;
 
 }
 
-
-
-.gearButton:active{
-
-    background:var(--orange);
-
-}
-
-
-
-/* =========================
-          VERSION
-========================= */
 
 
 #version{
@@ -336,72 +305,204 @@ footer{
 
 
 /* =========================
-       MOBILE ANDROID
+      PARAMETRES VEHICULE
+========================= */
+
+
+#settingsPanel{
+
+
+    position:fixed;
+
+    inset:0;
+
+
+    background:rgba(0,0,0,0.75);
+
+
+    display:none;
+
+
+    justify-content:center;
+
+    align-items:center;
+
+
+    z-index:100;
+
+
+}
+
+
+
+.settingsBox{
+
+
+    width:320px;
+
+
+    max-width:90%;
+
+
+    background:var(--panel);
+
+
+    border-radius:15px;
+
+
+    padding:25px;
+
+
+    position:relative;
+
+
+    box-shadow:0 0 20px black;
+
+
+}
+
+
+
+.settingsBox h2{
+
+
+    text-align:center;
+
+    color:var(--orange);
+
+    margin-bottom:20px;
+
+
+}
+
+
+
+#closeSettings{
+
+
+    position:absolute;
+
+    top:10px;
+
+    right:10px;
+
+
+    width:35px;
+
+    height:35px;
+
+
+    border:none;
+
+    border-radius:50%;
+
+
+    background:var(--button);
+
+    color:white;
+
+
+    font-size:18px;
+
+
+}
+
+
+
+#vehicleInfo{
+
+
+    line-height:1.8;
+
+    color:white;
+
+    font-size:15px;
+
+
+}
+
+
+
+/* =========================
+        MOBILE
 ========================= */
 
 
 @media(max-width:800px){
 
 
-    .dashboard{
 
-        flex-direction:column;
-
-        gap:15px;
-
-    }
+.dashboard{
 
 
+    flex-direction:column;
 
-    .gauge{
+    gap:15px;
 
-        width:220px;
 
-        height:220px;
-
-    }
+}
 
 
 
-    #gearDisplay{
-
-        width:75px;
-
-        height:75px;
-
-        font-size:42px;
-
-    }
+.gauge{
 
 
+    width:220px;
 
-    .controls{
+    height:220px;
 
-        gap:10px;
 
-    }
+}
 
 
 
-    .controlButton{
-
-        width:105px;
-
-        height:65px;
-
-        font-size:18px;
-
-    }
+#gearDisplay{
 
 
+    width:75px;
 
-    .gearButton{
+    height:75px;
 
-        width:50px;
+    font-size:42px;
 
-        height:50px;
 
-    }
+}
+
+
+
+.controls{
+
+
+    gap:10px;
+
+
+}
+
+
+
+.controlButton{
+
+
+    width:105px;
+
+    height:65px;
+
+    font-size:18px;
+
+
+}
+
+
+
+.gearButton{
+
+
+    width:50px;
+
+    height:50px;
+
+
+}
 
 
 }
