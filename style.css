@@ -1,251 +1,358 @@
+/* ===========================================================
+   Mini Engine Simulator
+   Version : v0.0.1
+   Fichier : style.css
+   =========================================================== */
+
+:root{
+
+    --background:#181818;
+    --panel:#242424;
+
+    --orange:#ff7a00;
+
+    --white:#ffffff;
+
+    --lightGray:#9d9d9d;
+
+    --button:#363636;
+
+    --buttonPressed:#ff7a00;
+
+}
+
 *{
 
-margin:0;
-padding:0;
-box-sizing:border-box;
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 
-font-family:Arial,Helvetica,sans-serif;
+    font-family:Arial, Helvetica, sans-serif;
+
+    user-select:none;
 
 }
 
 body{
 
-background:#1a1a1a;
+    background:var(--background);
 
-color:white;
+    color:var(--white);
 
-height:100vh;
+    height:100vh;
 
-display:flex;
+    display:flex;
 
-flex-direction:column;
-
-justify-content:space-between;
-
-padding:20px;
+    flex-direction:column;
 
 }
+
+/* =======================
+        TOP BAR
+======================= */
 
 .topbar{
 
-display:flex;
+    display:flex;
 
-justify-content:flex-end;
+    justify-content:flex-end;
 
-gap:10px;
+    gap:12px;
+
+    padding:15px 18px;
 
 }
 
-.icon-btn{
+.topButton{
 
-width:40px;
-height:40px;
+    width:42px;
 
-border:none;
+    height:42px;
 
-background:#333;
+    border:none;
 
-color:white;
+    border-radius:8px;
 
-border-radius:8px;
+    background:var(--button);
 
-font-size:18px;
+    color:white;
+
+    cursor:pointer;
+
+    transition:.15s;
+
+    font-size:18px;
+
+}
+
+.topButton:active{
+
+    background:var(--buttonPressed);
+
+}
+
+/* =======================
+      DASHBOARD
+======================= */
+
+main{
+
+    flex:1;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
 
 }
 
 .dashboard{
 
-display:flex;
+    display:flex;
 
-justify-content:center;
+    align-items:center;
 
-align-items:center;
+    justify-content:center;
 
-gap:40px;
+    gap:45px;
 
-flex:1;
+    width:100%;
 
 }
+
+/* =======================
+        GAUGES
+======================= */
 
 .gauge{
 
-width:220px;
-height:220px;
+    position:relative;
 
-border:8px solid #ff7a00;
+    width:300px;
 
-border-radius:50%;
-
-position:relative;
-
-display:flex;
-
-flex-direction:column;
-
-justify-content:center;
-
-align-items:center;
+    height:300px;
 
 }
 
-.gauge-title{
+.gauge canvas{
 
-position:absolute;
+    width:100%;
 
-top:20px;
-
-font-size:18px;
-
-font-weight:bold;
-
-color:#ff7a00;
+    height:100%;
 
 }
 
-.value{
+.gaugeLabel{
 
-font-size:42px;
+    position:absolute;
 
-font-weight:bold;
+    bottom:12px;
 
-}
+    left:50%;
 
-.needle{
+    transform:translateX(-50%);
 
-position:absolute;
+    color:var(--orange);
 
-width:4px;
+    font-size:22px;
 
-height:80px;
+    font-weight:bold;
 
-background:white;
-
-bottom:50%;
-
-transform-origin:bottom;
-
-transform:rotate(-120deg);
+    letter-spacing:2px;
 
 }
 
-.gear-box{
+/* =======================
+     GEAR DISPLAY
+======================= */
 
-width:90px;
+#gearDisplay{
 
-height:90px;
+    width:95px;
 
-background:white;
+    height:95px;
 
-color:#ff7a00;
+    border-radius:12px;
 
-font-size:48px;
+    background:white;
 
-font-weight:bold;
+    color:var(--orange);
 
-display:flex;
+    display:flex;
 
-justify-content:center;
+    justify-content:center;
 
-align-items:center;
+    align-items:center;
 
-border-radius:12px;
+    font-size:52px;
+
+    font-weight:bold;
+
+}
+
+/* =======================
+      CONTROLS
+======================= */
+
+footer{
+
+    padding-bottom:10px;
 
 }
 
 .controls{
 
-display:flex;
+    display:flex;
 
-justify-content:center;
+    justify-content:center;
 
-align-items:center;
+    align-items:center;
 
-gap:30px;
+    gap:30px;
 
-margin-bottom:20px;
-
-}
-
-.control-btn{
-
-width:120px;
-
-height:80px;
-
-background:#333;
-
-color:white;
-
-border:none;
-
-border-radius:12px;
-
-font-size:22px;
+    margin-bottom:10px;
 
 }
 
-.gear-buttons{
+.controlButton{
 
-display:flex;
+    width:140px;
 
-gap:10px;
+    height:82px;
 
-}
+    border:none;
 
-.gear-btn{
+    border-radius:12px;
 
-width:60px;
+    background:var(--button);
 
-height:60px;
+    color:white;
 
-font-size:28px;
+    font-size:22px;
 
-border:none;
+    cursor:pointer;
 
-border-radius:10px;
-
-background:#444;
-
-color:white;
+    transition:.12s;
 
 }
 
-button:active{
+.controlButton:active{
 
-background:#ff7a00;
-
-}
-
-@media(max-width:700px){
-
-.dashboard{
-
-flex-direction:column;
-
-gap:20px;
+    background:var(--buttonPressed);
 
 }
 
-.gauge{
+.gearButtons{
 
-width:180px;
+    display:flex;
 
-height:180px;
-
-}
-
-.controls{
-
-gap:10px;
+    gap:12px;
 
 }
 
-.control-btn{
+.gearButtons button{
 
-width:100px;
+    width:62px;
 
-height:70px;
+    height:62px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:var(--button);
+
+    color:white;
+
+    font-size:30px;
+
+    cursor:pointer;
+
+    transition:.12s;
 
 }
+
+.gearButtons button:active{
+
+    background:var(--buttonPressed);
+
+}
+
+/* =======================
+      VERSION
+======================= */
+
+#version{
+
+    text-align:center;
+
+    color:var(--lightGray);
+
+    font-size:11px;
+
+    margin-top:8px;
+
+    margin-bottom:4px;
+
+    letter-spacing:1px;
+
+}
+
+/* =======================
+    RESPONSIVE MOBILE
+======================= */
+
+@media (max-width:900px){
+
+    .dashboard{
+
+        flex-direction:column;
+
+        gap:18px;
+
+    }
+
+    .gauge{
+
+        width:220px;
+
+        height:220px;
+
+    }
+
+    #gearDisplay{
+
+        width:82px;
+
+        height:82px;
+
+        font-size:46px;
+
+    }
+
+    .controls{
+
+        gap:12px;
+
+    }
+
+    .controlButton{
+
+        width:105px;
+
+        height:70px;
+
+        font-size:20px;
+
+    }
+
+    .gearButtons button{
+
+        width:55px;
+
+        height:55px;
+
+    }
 
 }
