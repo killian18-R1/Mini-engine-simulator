@@ -3,86 +3,141 @@
 
 <head>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
 
-<title>Mini Engine Simulator</title>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
-<link rel="stylesheet" href="style.css">
+    <title>Mini Engine Simulator</title>
+
+    <link rel="stylesheet" href="style.css">
 
 </head>
 
 <body>
 
-<div class="topbar">
+    <!-- Barre supérieure -->
 
-<button class="icon-btn">🔇</button>
+    <header class="topbar">
 
-<button class="icon-btn">⚙</button>
+        <button id="soundButton" class="topButton">
+            🔇
+        </button>
 
-</div>
+        <button id="settingsButton" class="topButton">
+            ⚙
+        </button>
 
-<div class="dashboard">
+    </header>
 
-<div class="gauge">
 
-<div class="gauge-title">
-KM/H
-</div>
+    <!-- Tableau de bord -->
 
-<div class="needle"></div>
+    <main>
 
-<div class="value">
-000
-</div>
+        <section class="dashboard">
 
-</div>
+            <!-- Vitesse -->
 
-<div class="gear-box">
-N
-</div>
+            <div class="gauge">
 
-<div class="gauge">
+                <canvas id="speedGauge"
+                        width="300"
+                        height="300">
+                </canvas>
 
-<div class="gauge-title">
-RPM
-</div>
+                <div class="gaugeLabel">
 
-<div class="needle"></div>
+                    KM/H
 
-<div class="value">
-0000
-</div>
+                </div>
 
-</div>
+            </div>
 
-</div>
 
-<div class="controls">
+            <!-- Rapport -->
 
-<button class="control-btn">
-Brake
-</button>
+            <div id="gearDisplay">
 
-<div class="gear-buttons">
+                N
 
-<button class="gear-btn">
--
-</button>
+            </div>
 
-<button class="gear-btn">
-+
-</button>
 
-</div>
+            <!-- RPM -->
 
-<button class="control-btn">
-Gaz
-</button>
+            <div class="gauge">
 
-</div>
+                <canvas id="rpmGauge"
+                        width="300"
+                        height="300">
+                </canvas>
 
-<script src="script.js"></script>
+                <div class="gaugeLabel">
+
+                    RPM
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- Commandes -->
+
+    <footer>
+
+        <div class="controls">
+
+            <button id="brakeButton"
+                    class="controlButton">
+
+                Brake
+
+            </button>
+
+
+            <div class="gearButtons">
+
+                <button id="gearDown">
+
+                    -
+
+                </button>
+
+                <button id="gearUp">
+
+                    +
+
+                </button>
+
+            </div>
+
+
+            <button id="gasButton"
+                    class="controlButton">
+
+                Gaz
+
+            </button>
+
+        </div>
+
+
+        <!-- Version -->
+
+        <div id="version">
+
+            v0.0.1
+
+        </div>
+
+    </footer>
+
+    <script src="script.js"></script>
 
 </body>
 
