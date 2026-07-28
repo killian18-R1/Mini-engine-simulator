@@ -1,7 +1,7 @@
 /*
 ============================================================
  Mini Engine Simulator
- Version : v0.0.3
+ Version : v0.0.4
  Fichier : style.css
 ============================================================
 */
@@ -20,6 +20,8 @@
     --grey:#999999;
 
     --button:#333333;
+
+    --input:#111111;
 
 }
 
@@ -98,8 +100,6 @@ body{
 
     font-size:20px;
 
-    cursor:pointer;
-
 }
 
 
@@ -112,8 +112,10 @@ body{
 
 
 
+
+
 /* =========================
-      TABLEAU DE BORD
+        TABLEAU DE BORD
 ========================= */
 
 
@@ -177,27 +179,39 @@ body{
 
 #gearDisplay{
 
+
     width:95px;
 
     height:95px;
 
+
     background:white;
+
 
     color:var(--orange);
 
+
     border-radius:12px;
+
 
     display:flex;
 
+
     align-items:center;
+
 
     justify-content:center;
 
+
     font-size:52px;
+
 
     font-weight:bold;
 
+
 }
+
+
 
 
 
@@ -216,13 +230,18 @@ footer{
 
 .controls{
 
+
     display:flex;
+
 
     justify-content:center;
 
+
     align-items:center;
 
+
     gap:30px;
+
 
 }
 
@@ -230,19 +249,27 @@ footer{
 
 .controlButton{
 
+
     width:140px;
+
 
     height:80px;
 
+
     border:none;
+
 
     border-radius:12px;
 
+
     background:var(--button);
+
 
     color:white;
 
+
     font-size:22px;
+
 
 }
 
@@ -252,7 +279,9 @@ footer{
 
 .gearButton:active{
 
+
     background:var(--orange);
+
 
 }
 
@@ -260,9 +289,12 @@ footer{
 
 .gearControls{
 
+
     display:flex;
 
+
     gap:10px;
+
 
 }
 
@@ -270,19 +302,27 @@ footer{
 
 .gearButton{
 
+
     width:60px;
+
 
     height:60px;
 
+
     border:none;
+
 
     border-radius:10px;
 
+
     background:var(--button);
+
 
     color:white;
 
+
     font-size:30px;
+
 
 }
 
@@ -290,17 +330,25 @@ footer{
 
 #version{
 
+
     text-align:center;
+
 
     margin-top:10px;
 
+
     font-size:11px;
+
 
     color:var(--grey);
 
+
     letter-spacing:1px;
 
+
 }
+
+
 
 
 
@@ -314,6 +362,7 @@ footer{
 
     position:fixed;
 
+
     inset:0;
 
 
@@ -325,6 +374,7 @@ footer{
 
     justify-content:center;
 
+
     align-items:center;
 
 
@@ -335,13 +385,21 @@ footer{
 
 
 
+
+
 .settingsBox{
 
 
-    width:320px;
+    width:360px;
 
 
     max-width:90%;
+
+
+    max-height:90vh;
+
+
+    overflow-y:auto;
 
 
     background:var(--panel);
@@ -363,12 +421,16 @@ footer{
 
 
 
+
+
 .settingsBox h2{
 
 
     text-align:center;
 
+
     color:var(--orange);
+
 
     margin-bottom:20px;
 
@@ -377,27 +439,53 @@ footer{
 
 
 
+.settingsBox h3{
+
+
+    color:var(--orange);
+
+
+    margin-top:15px;
+
+
+    margin-bottom:15px;
+
+
+    font-size:18px;
+
+
+}
+
+
+
+
+
 #closeSettings{
 
 
     position:absolute;
 
+
     top:10px;
+
 
     right:10px;
 
 
     width:35px;
 
+
     height:35px;
 
 
     border:none;
 
+
     border-radius:50%;
 
 
     background:var(--button);
+
 
     color:white;
 
@@ -409,17 +497,180 @@ footer{
 
 
 
+
+
 #vehicleInfo{
 
 
     line-height:1.8;
 
+
     color:white;
+
 
     font-size:15px;
 
 
 }
+
+
+
+
+
+
+hr{
+
+
+    border:none;
+
+
+    border-top:1px solid #555;
+
+
+    margin:20px 0;
+
+
+}
+
+
+
+
+
+
+/* =========================
+      PARAMETRES INPUT
+========================= */
+
+
+.parameter{
+
+
+    display:flex;
+
+
+    justify-content:space-between;
+
+
+    align-items:center;
+
+
+    margin-bottom:12px;
+
+
+}
+
+
+
+
+
+.parameter label{
+
+
+    font-size:14px;
+
+
+    color:white;
+
+
+}
+
+
+
+
+
+.parameter input{
+
+
+    width:120px;
+
+
+    height:35px;
+
+
+    border:none;
+
+
+    border-radius:8px;
+
+
+    background:var(--input);
+
+
+    color:white;
+
+
+    text-align:center;
+
+
+    font-size:16px;
+
+
+}
+
+
+
+
+
+.parameter input:focus{
+
+
+    outline:2px solid var(--orange);
+
+
+}
+
+
+
+
+
+
+.applyButton{
+
+
+    width:100%;
+
+
+    height:45px;
+
+
+    margin-top:15px;
+
+
+    border:none;
+
+
+    border-radius:10px;
+
+
+    background:var(--orange);
+
+
+    color:white;
+
+
+    font-size:18px;
+
+
+    font-weight:bold;
+
+
+}
+
+
+
+
+
+.applyButton:active{
+
+
+    transform:scale(0.97);
+
+
+}
+
+
+
+
 
 
 
@@ -437,7 +688,8 @@ footer{
 
     flex-direction:column;
 
-    gap:15px;
+
+    gap:10px;
 
 
 }
@@ -448,6 +700,7 @@ footer{
 
 
     width:220px;
+
 
     height:220px;
 
@@ -461,12 +714,15 @@ footer{
 
     width:75px;
 
+
     height:75px;
+
 
     font-size:42px;
 
 
 }
+
 
 
 
@@ -485,7 +741,9 @@ footer{
 
     width:105px;
 
+
     height:65px;
+
 
     font-size:18px;
 
@@ -494,15 +752,41 @@ footer{
 
 
 
+
 .gearButton{
 
 
     width:50px;
 
+
     height:50px;
 
 
 }
+
+
+
+.settingsBox{
+
+
+    width:90%;
+
+
+    padding:20px;
+
+
+}
+
+
+
+.parameter input{
+
+
+    width:100px;
+
+
+}
+
 
 
 }
