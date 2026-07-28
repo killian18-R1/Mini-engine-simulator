@@ -82,15 +82,71 @@ document.getElementById("gearDown");
 
 async function loadVehicle(){
 
+    try{
 
-    const response = await fetch(
-
-        "vehicles/default.json"
-
-    );
+        const response = await fetch(
+            "./vehicles/default.json"
+        );
 
 
-    vehicleData = await response.json();
+        if(!response.ok){
+
+            throw new Error(
+                "Fichier véhicule introuvable"
+            );
+
+        }
+
+
+        vehicleData = await response.json();
+
+
+        vehicle.rpm =
+        vehicleData.engine.idleRPM;
+
+
+        console.log(
+            "Véhicule chargé :",
+            vehicleData.name
+        );
+
+
+        startSimulation();
+
+
+    }
+
+    catch(error){
+
+
+        console.error(error);
+
+
+        document.body.insertAdjacentHTML(
+
+            "beforeend",
+
+            `
+            <div style="
+            position:fixed;
+            bottom:0;
+            left:0;
+            right:0;
+            background:red;
+            color:white;
+            padding:10px;
+            z-index:9999;
+            ">
+            ERREUR VEHICULE :
+            ${error.message}
+            </div>
+            `
+
+        );
+
+    }
+
+}
 
 
 
