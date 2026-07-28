@@ -1,182 +1,162 @@
 /*
 ============================================================
  Mini Engine Simulator
- Debug v0.0.1
-============================================================
-*/
-
-window.onerror = function(message, source, line){
-
-    let debug = document.getElementById("debug");
-
-    if(debug){
-
-        debug.innerHTML =
-        "Erreur JS : " + message +
-        "<br>Ligne : " + line;
-
-    }
-
-};
-
-
-console.log("Mini Engine Simulator JS chargé");
-
-/*
-============================================================
- Mini Engine Simulator
- Version : v0.0.1
+ Version : v0.0.1c
  Fichier : script.js
- Partie : 1 / 3
 ============================================================
 */
 
 
+console.log("Mini Engine Simulator v0.0.1c chargé");
+
+
+
 /* ==========================================================
-    ETAT GLOBAL DU SIMULATEUR
+   PARAMETRES SIMULATEUR
 ========================================================== */
 
-console.log("SCRIPT OK v0.0.1");
 
-const simulator = {
+const vehicle = {
 
-    version: "v0.0.1",
+    speed:0,
 
-    running: true,
+    rpm:1300,
 
-    speed: 0,
+    idleRPM:1300,
 
-    rpm: 1300,
+    maxRPM:14000,
 
-    idleRPM: 1300,
+    gear:0,
 
-    maxRPM: 14000,
+    maxGear:6,
 
-    redlineRPM: 12000,
+    throttle:false,
 
-    gear: 0,
-
-    maxGear: 6,
-
-    throttle: false,
-
-    brake: false,
-
-    sound: false,
-
-    deltaTime: 0,
-
-    lastFrame: performance.now()
+    brake:false
 
 };
 
 
-/* ==========================================================
-    RAPPORTS DE BOITE
-========================================================== */
 
-const gearRatio = [
+const gearbox = [
 
-    0.00, // N
+    0,
 
-    2.80,
+    2.8,
 
     2.05,
 
-    1.70,
+    1.65,
 
-    1.45,
+    1.35,
 
-    1.28,
+    1.15,
 
-    1.10
+    1.00
 
 ];
 
 
-/* ==========================================================
-    CANVAS
-========================================================== */
-
-const speedCanvas = document.getElementById("speedGauge");
-
-const rpmCanvas = document.getElementById("rpmGauge");
-
-const speedCtx = speedCanvas.getContext("2d");
-
-const rpmCtx = rpmCanvas.getContext("2d");
-
 
 /* ==========================================================
-    INTERFACE
+   ELEMENTS HTML
 ========================================================== */
 
-const gearDisplay = document.getElementById("gearDisplay");
 
-const gasButton = document.getElementById("gasButton");
+const speedCanvas =
+document.getElementById("speedGauge");
 
-const brakeButton = document.getElementById("brakeButton");
 
-const gearUpButton = document.getElementById("gearUp");
+const rpmCanvas =
+document.getElementById("rpmGauge");
 
-const gearDownButton = document.getElementById("gearDown");
 
-const soundButton = document.getElementById("soundButton");
+const speedCtx =
+speedCanvas.getContext("2d");
+
+
+const rpmCtx =
+rpmCanvas.getContext("2d");
+
+
+
+const gearDisplay =
+document.getElementById("gearDisplay");
+
+
+
+const gasButton =
+document.getElementById("gasButton");
+
+
+const brakeButton =
+document.getElementById("brakeButton");
+
+
+const gearUpButton =
+document.getElementById("gearUp");
+
+
+const gearDownButton =
+document.getElementById("gearDown");
+
 
 
 /* ==========================================================
-    OUTILS
+   UTILITAIRES
 ========================================================== */
 
-function clamp(value, min, max){
 
-    return Math.max(min, Math.min(max, value));
+function clamp(value,min,max){
+
+    return Math.max(min,Math.min(max,value));
 
 }
 
 
+
 /* ==========================================================
-    AFFICHAGE RAPPORT
+   RAPPORTS
 ========================================================== */
+
 
 function updateGearDisplay(){
 
-    if(simulator.gear === 0){
+    if(vehicle.gear===0){
 
-        gearDisplay.textContent = "N";
+        gearDisplay.textContent="N";
 
     }
 
     else{
 
-        gearDisplay.textContent = simulator.gear;
+        gearDisplay.textContent=vehicle.gear;
 
     }
 
 }
 
 
-/* ==========================================================
-    CHANGEMENT DE RAPPORT
-========================================================== */
 
 function gearUp(){
 
-    if(simulator.gear < simulator.maxGear){
+    if(vehicle.gear < vehicle.maxGear){
 
-        simulator.gear++;
+        vehicle.gear++;
 
         updateGearDisplay();
 
     }
 
 }
+
+
 
 function gearDown(){
 
-    if(simulator.gear > 0){
+    if(vehicle.gear > 0){
 
-        simulator.gear--;
+        vehicle.gear--;
 
         updateGearDisplay();
 
@@ -185,465 +165,372 @@ function gearDown(){
 }
 
 
-/* ==========================================================
-    CONTROLES TACTILES
-========================================================== */
-
-gasButton.addEventListener("pointerdown", () => {
-
-    simulator.throttle = true;
-
-});
-
-gasButton.addEventListener("pointerup", () => {
-
-    simulator.throttle = false;
-
-});
-
-gasButton.addEventListener("pointerleave", () => {
-
-    simulator.throttle = false;
-
-});
-
-
-brakeButton.addEventListener("pointerdown", () => {
-
-    simulator.brake = true;
-
-});
-
-brakeButton.addEventListener("pointerup", () => {
-
-    simulator.brake = false;
-
-});
-
-brakeButton.addEventListener("pointerleave", () => {
-
-    simulator.brake = false;
-
-});
-
-
-gearUpButton.addEventListener("click", gearUp);
-
-gearDownButton.addEventListener("click", gearDown);
-
 
 /* ==========================================================
-    CONTROLES CLAVIER
+   COMMANDES TACTILES
 ========================================================== */
 
-document.addEventListener("keydown", (event)=>{
 
-    switch(event.code){
+gasButton.addEventListener("pointerdown",()=>{
 
-        case "ArrowUp":
-            simulator.throttle = true;
-            break;
-
-        case "ArrowDown":
-            simulator.brake = true;
-            break;
-
-        case "KeyE":
-            gearUp();
-            break;
-
-        case "KeyA":
-            gearDown();
-            break;
-
-    }
+    vehicle.throttle=true;
 
 });
 
 
-document.addEventListener("keyup", (event)=>{
+gasButton.addEventListener("pointerup",()=>{
 
-    switch(event.code){
-
-        case "ArrowUp":
-            simulator.throttle = false;
-            break;
-
-        case "ArrowDown":
-            simulator.brake = false;
-            break;
-
-    }
+    vehicle.throttle=false;
 
 });
+
+
+gasButton.addEventListener("pointerleave",()=>{
+
+    vehicle.throttle=false;
+
+});
+
+
+
+brakeButton.addEventListener("pointerdown",()=>{
+
+    vehicle.brake=true;
+
+});
+
+
+brakeButton.addEventListener("pointerup",()=>{
+
+    vehicle.brake=false;
+
+});
+
+
+brakeButton.addEventListener("pointerleave",()=>{
+
+    vehicle.brake=false;
+
+});
+
+
+
+gearUpButton.addEventListener("click",gearUp);
+
+
+gearDownButton.addEventListener("click",gearDown);
+
 
 
 /* ==========================================================
-    INITIALISATION
+   CLAVIER PC
 ========================================================== */
 
-updateGearDisplay();
 
-console.log("Mini Engine Simulator", simulator.version);
+document.addEventListener("keydown",(e)=>{
 
-/*
-============================================================
- Mini Engine Simulator
- Version : v0.0.1
- Fichier : script.js
- Partie : 2 / 3
-============================================================
-*/
+
+    if(e.code==="ArrowUp")
+
+        vehicle.throttle=true;
+
+
+
+    if(e.code==="ArrowDown")
+
+        vehicle.brake=true;
+
+
+
+    if(e.code==="KeyE")
+
+        gearUp();
+
+
+
+    if(e.code==="KeyA")
+
+        gearDown();
+
+
+
+});
+
+
+
+
+document.addEventListener("keyup",(e)=>{
+
+
+    if(e.code==="ArrowUp")
+
+        vehicle.throttle=false;
+
+
+
+    if(e.code==="ArrowDown")
+
+        vehicle.brake=false;
+
+
+
+});
+
 
 
 /* ==========================================================
-    MOTEUR
+   PHYSIQUE MOTEUR
 ========================================================== */
 
-function updateEngine(delta){
+
+function updateEngine(dt){
 
 
-    /* -----------------------------
-       Accélération
-    ----------------------------- */
+    if(vehicle.throttle){
 
-    if(simulator.throttle){
 
-        simulator.rpm += 7200 * delta;
+        vehicle.rpm += 8000 * dt;
+
 
     }
 
     else{
 
-        simulator.rpm -= 4200 * delta;
+
+        vehicle.rpm -= 5000 * dt;
+
 
     }
 
 
-    /* -----------------------------
-       Ralenti
-    ----------------------------- */
 
-    if(simulator.rpm < simulator.idleRPM){
+    vehicle.rpm = clamp(
 
-        simulator.rpm = simulator.idleRPM;
+        vehicle.rpm,
 
-    }
+        vehicle.idleRPM,
 
+        vehicle.maxRPM
 
-    /* -----------------------------
-       Rupteur
-    ----------------------------- */
+    );
 
-    if(simulator.rpm > simulator.maxRPM){
-
-        simulator.rpm = simulator.maxRPM;
-
-    }
 
 }
 
 
+
 /* ==========================================================
-    CALCUL VITESSE
+   PHYSIQUE VITESSE
 ========================================================== */
 
-function updateSpeed(delta){
 
-    if(simulator.gear === 0){
+function updateSpeed(dt){
 
-        simulator.speed *= 0.992;
+
+
+    if(vehicle.gear===0){
+
+
+        vehicle.speed -= 20*dt;
+
 
     }
 
+
     else{
 
-        const ratio = gearRatio[simulator.gear];
+
+        const ratio = gearbox[vehicle.gear];
+
+
 
         const targetSpeed =
 
-            (simulator.rpm / simulator.maxRPM)
+        (
 
-            *
+            vehicle.rpm /
 
-            ((70 * simulator.gear) / ratio);
+            vehicle.maxRPM
+
+        )
+
+        *
+
+        (
+
+            300 /
+
+            ratio
+
+        );
 
 
-        simulator.speed +=
 
-            (targetSpeed - simulator.speed)
+        vehicle.speed +=
 
-            * 2.6
+        (
 
-            * delta;
+            targetSpeed -
+
+            vehicle.speed
+
+        )
+
+        *
+
+        dt;
+
+
 
     }
 
 
-    /* -----------------------------
-       Frein
-    ----------------------------- */
 
-    if(simulator.brake){
+    if(vehicle.brake){
 
-        simulator.speed -= 90 * delta;
+
+        vehicle.speed -= 100*dt;
+
 
     }
 
 
-    if(simulator.speed < 0){
 
-        simulator.speed = 0;
+    vehicle.speed = Math.max(
 
-    }
+        0,
+
+        vehicle.speed
+
+    );
+
 
 }
 
 
-/* ==========================================================
-    MISE A JOUR INTERFACE
-========================================================== */
-
-function updateDashboard(){
-
-    gearDisplay.textContent =
-
-        simulator.gear === 0
-
-        ? "N"
-
-        : simulator.gear;
-
-}
-
 
 /* ==========================================================
-    BOUCLE PRINCIPALE
+   DESSIN CADRANS
 ========================================================== */
 
-function gameLoop(time){
 
-    simulator.deltaTime =
-
-        (time - simulator.lastFrame)
-
-        / 1000;
+function drawGauge(ctx,value,max,label){
 
 
-    simulator.lastFrame = time;
+
+    const w=ctx.canvas.width;
+
+    const h=ctx.canvas.height;
 
 
-    updateEngine(simulator.deltaTime);
+    const cx=w/2;
 
-    updateSpeed(simulator.deltaTime);
-
-    updateDashboard();
+    const cy=h/2;
 
 
-    requestAnimationFrame(gameLoop);
-
-}
+    ctx.clearRect(0,0,w,h);
 
 
-requestAnimationFrame(gameLoop);
 
-/*
-============================================================
- Mini Engine Simulator
- Version : v0.0.1
- Fichier : script.js
- Partie : 3 / 3
-============================================================
-*/
+    // cercle
 
-
-/* ==========================================================
-    OUTILS CANVAS
-========================================================== */
-
-function drawGaugeBackground(ctx, maxValue, redZone){
-
-    const width = ctx.canvas.width;
-
-    const height = ctx.canvas.height;
-
-    const centerX = width / 2;
-
-    const centerY = height / 2;
-
-    const radius = 120;
-
-
-    ctx.clearRect(0,0,width,height);
-
-
-    /* Cercle extérieur */
 
     ctx.beginPath();
 
-    ctx.arc(
-        centerX,
-        centerY,
-        radius,
-        0,
-        Math.PI * 2
-    );
+    ctx.arc(cx,cy,120,0,Math.PI*2);
 
-    ctx.strokeStyle = "#ff7a00";
+    ctx.strokeStyle="#ff7a00";
 
-    ctx.lineWidth = 8;
+    ctx.lineWidth=8;
 
     ctx.stroke();
 
 
 
-    /* Graduations */
 
-    for(let i = 0; i <= 10; i++){
-
-        const angle =
-
-            Math.PI * 0.75
-
-            +
-
-            (Math.PI * 1.5 * i / 10);
+    // graduations
 
 
-        const startX =
-
-            centerX +
-
-            Math.cos(angle) * 95;
+    for(let i=0;i<=10;i++){
 
 
-        const startY =
+        let angle=
 
-            centerY +
-
-            Math.sin(angle) * 95;
-
-
-        const endX =
-
-            centerX +
-
-            Math.cos(angle) * 112;
-
-
-        const endY =
-
-            centerY +
-
-            Math.sin(angle) * 112;
-
-
-        ctx.beginPath();
-
-        ctx.moveTo(startX,startY);
-
-        ctx.lineTo(endX,endY);
-
-        ctx.strokeStyle="#ffffff";
-
-        ctx.lineWidth=3;
-
-        ctx.stroke();
-
-    }
-
-
-    /* Zone rouge RPM */
-
-    if(redZone){
-
-        ctx.beginPath();
-
-        ctx.arc(
-
-            centerX,
-
-            centerY,
-
-            radius,
-
-            Math.PI * 0.75 +
-
-            (Math.PI * 1.5 * 0.85),
-
-            Math.PI * 2.25
-
-        );
-
-        ctx.strokeStyle="#ff0000";
-
-        ctx.lineWidth=8;
-
-        ctx.stroke();
-
-    }
-
-}
-
-
-
-/* ==========================================================
-    AIGUILLE
-========================================================== */
-
-function drawNeedle(ctx,value,maxValue){
-
-
-    const width = ctx.canvas.width;
-
-    const height = ctx.canvas.height;
-
-
-    const centerX = width / 2;
-
-    const centerY = height / 2;
-
-
-    const angle =
-
-        Math.PI * 0.75
+        (-Math.PI*0.75)
 
         +
 
         (
 
-            Math.PI * 1.5 *
-
-            clamp(value / maxValue,0,1)
+        Math.PI*1.5*i/10
 
         );
 
 
-    const length = 95;
+
+        let x1=cx+100*Math.cos(angle);
+
+        let y1=cy+100*Math.sin(angle);
 
 
-    const x =
 
-        centerX +
+        let x2=cx+115*Math.cos(angle);
 
-        Math.cos(angle) * length;
+        let y2=cy+115*Math.sin(angle);
 
 
-    const y =
 
-        centerY +
+        ctx.beginPath();
 
-        Math.sin(angle) * length;
+        ctx.moveTo(x1,y1);
+
+        ctx.lineTo(x2,y2);
+
+        ctx.strokeStyle="white";
+
+        ctx.lineWidth=3;
+
+        ctx.stroke();
+
+
+    }
+
+
+
+    // aiguille
+
+
+    let angle=
+
+    (-Math.PI*0.75)
+
+    +
+
+    (
+
+    Math.PI*1.5*
+
+    clamp(value/max,0,1)
+
+    );
 
 
 
     ctx.beginPath();
 
-    ctx.moveTo(centerX,centerY);
+    ctx.moveTo(cx,cy);
 
-    ctx.lineTo(x,y);
+    ctx.lineTo(
 
-    ctx.strokeStyle="#ffffff";
+        cx+90*Math.cos(angle),
+
+        cy+90*Math.sin(angle)
+
+    );
+
+
+
+    ctx.strokeStyle="white";
 
     ctx.lineWidth=4;
 
@@ -651,58 +538,23 @@ function drawNeedle(ctx,value,maxValue){
 
 
 
-    /* Centre aiguille */
-
-    ctx.beginPath();
-
-    ctx.arc(
-
-        centerX,
-
-        centerY,
-
-        8,
-
-        0,
-
-        Math.PI*2
-
-    );
-
-    ctx.fillStyle="#ffffff";
-
-    ctx.fill();
-
-}
+    // valeur
 
 
+    ctx.fillStyle="white";
 
-/* ==========================================================
-    TEXTE DIGITAL
-========================================================== */
-
-function drawDigitalValue(ctx,value,label){
-
-
-    const centerX = ctx.canvas.width/2;
-
-    const centerY = ctx.canvas.height/2 + 55;
-
-
-    ctx.font="bold 38px Arial";
+    ctx.font="bold 35px Arial";
 
     ctx.textAlign="center";
-
-    ctx.fillStyle="#ffffff";
 
 
     ctx.fillText(
 
         Math.floor(value),
 
-        centerX,
+        cx,
 
-        centerY
+        cy+55
 
     );
 
@@ -711,10 +563,77 @@ function drawDigitalValue(ctx,value,label){
 
 
 /* ==========================================================
-    AFFICHAGE COMPLET
+   BOUCLE PRINCIPALE
 ========================================================== */
 
-function drawDashboard(){
+
+let lastTime=performance.now();
 
 
-    /* Vitesse
+
+function loop(time){
+
+
+    let dt=
+
+    (
+
+        time-lastTime
+
+    )
+
+    /
+
+    1000;
+
+
+
+    lastTime=time;
+
+
+
+    updateEngine(dt);
+
+    updateSpeed(dt);
+
+
+
+    updateGearDisplay();
+
+
+
+    drawGauge(
+
+        speedCtx,
+
+        vehicle.speed,
+
+        300
+
+    );
+
+
+
+    drawGauge(
+
+        rpmCtx,
+
+        vehicle.rpm,
+
+        vehicle.maxRPM
+
+    );
+
+
+
+    requestAnimationFrame(loop);
+
+
+}
+
+
+
+updateGearDisplay();
+
+
+requestAnimationFrame(loop);
