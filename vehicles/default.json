@@ -1,1 +1,61 @@
+{
+    "name": "Prototype Bike",
 
+    "type": "motorcycle",
+
+    "mass": 200,
+
+    "engine": {
+
+        "power": 150,
+
+        "torque": 110,
+
+        "idleRPM": 1300,
+
+        "maxRPM": 14000
+
+    },
+
+
+    "transmission": {
+
+        "gears": [
+
+            2.80,
+            2.05,
+            1.65,
+            1.35,
+            1.15,
+            1.00
+
+        ]
+
+    },
+
+
+    "wheel": {
+
+        "diameter": 0.62
+
+    },
+
+
+    "aerodynamics": {
+
+        "cx": 0.65,
+
+        "frontArea": 0.60
+
+    },
+
+
+    "electronics": {
+
+        "ABS": true,
+
+        "ESC": true
+
+    }
+
+}
