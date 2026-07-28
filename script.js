@@ -1,7 +1,7 @@
 /*
 ============================================================
  Mini Engine Simulator
- Version : v0.0.3
+ Version : v0.0.4
  Fichier : script.js
 ============================================================
 */
@@ -12,7 +12,7 @@
 ========================= */
 
 
-const GAME_VERSION = "v0.0.3";
+const GAME_VERSION = "v0.0.4";
 
 
 console.log(
@@ -23,7 +23,7 @@ console.log(
 
 
 /* =========================
-        DONNEES VEHICULE
+        VEHICULE
 ========================= */
 
 
@@ -32,7 +32,6 @@ let vehicleData;
 
 
 const vehicle = {
-
 
     speed:0,
 
@@ -43,7 +42,6 @@ const vehicle = {
     throttle:false,
 
     brake:false
-
 
 };
 
@@ -75,7 +73,6 @@ const gearDisplay =
 document.getElementById("gearDisplay");
 
 
-
 const versionDisplay =
 document.getElementById("version");
 
@@ -98,6 +95,31 @@ document.getElementById("vehicleInfo");
 
 
 
+const massInput =
+document.getElementById("massInput");
+
+
+const powerInput =
+document.getElementById("powerInput");
+
+
+const torqueInput =
+document.getElementById("torqueInput");
+
+
+const idleRPMInput =
+document.getElementById("idleRPMInput");
+
+
+const maxRPMInput =
+document.getElementById("maxRPMInput");
+
+
+const applySettings =
+document.getElementById("applySettings");
+
+
+
 const gasButton =
 document.getElementById("gasButton");
 
@@ -116,7 +138,7 @@ document.getElementById("gearDown");
 
 
 /* =========================
-        VERSION AFFICHAGE
+        VERSION
 ========================= */
 
 
@@ -135,19 +157,14 @@ async function loadVehicle(){
     try{
 
 
-        const response = await fetch(
-            "./vehicles/default.json"
-        );
-
-
-        vehicleData = await response.json();
+        const response =
+        await fetch("./vehicles/default.json");
 
 
 
-        console.log(
-            "Véhicule chargé :",
-            vehicleData.name
-        );
+        vehicleData =
+        await response.json();
+
 
 
         vehicle.rpm =
@@ -155,15 +172,23 @@ async function loadVehicle(){
 
 
 
-        displayVehicleInfo();
+        loadInputs();
 
+
+        displayVehicleInfo();
 
 
         startSimulation();
 
 
-    }
 
+        console.log(
+            "Véhicule chargé",
+            vehicleData.name
+        );
+
+
+    }
 
     catch(error){
 
@@ -182,7 +207,7 @@ async function loadVehicle(){
 
 
 /* =========================
-        MENU PARAMETRES
+        AFFICHAGE VEHICULE
 ========================= */
 
 
@@ -192,38 +217,135 @@ function displayVehicleInfo(){
     vehicleInfo.innerHTML = `
 
 
-    <b>Nom :</b> ${vehicleData.name}<br>
+    <b>Nom :</b>
+    ${vehicleData.name}<br>
 
-    <b>Type :</b> ${vehicleData.type}<br>
 
-    <b>Masse :</b> ${vehicleData.mass} kg<br><br>
+    <b>Type :</b>
+    ${vehicleData.type}<br>
+
+
+    <b>Masse :</b>
+    ${vehicleData.mass} kg<br><br>
+
 
 
     <b>Moteur</b><br>
 
+
     Puissance :
     ${vehicleData.engine.power} ch<br>
+
 
     Couple :
     ${vehicleData.engine.torque} Nm<br>
 
-    Régime ralenti :
+
+    Ralenti :
     ${vehicleData.engine.idleRPM} tr/min<br>
 
-    Régime maximum :
-    ${vehicleData.engine.maxRPM} tr/min<br><br>
+
+    Régime max :
+    ${vehicleData.engine.maxRPM} tr/min
 
 
-    <b>Transmission</b><br>
-
-    Rapports :
-    ${vehicleData.transmission.gears.length}
 
     `;
 
 
 }
 
+
+
+/* =========================
+        CHARGEMENT INPUTS
+========================= */
+
+
+function loadInputs(){
+
+
+    massInput.value =
+    vehicleData.mass;
+
+
+    powerInput.value =
+    vehicleData.engine.power;
+
+
+    torqueInput.value =
+    vehicleData.engine.torque;
+
+
+    idleRPMInput.value =
+    vehicleData.engine.idleRPM;
+
+
+    maxRPMInput.value =
+    vehicleData.engine.maxRPM;
+
+
+}
+
+
+
+/* =========================
+        APPLICATION REGLAGES
+========================= */
+
+
+applySettings.onclick = ()=>{
+
+
+    vehicleData.mass =
+    Number(massInput.value);
+
+
+
+    vehicleData.engine.power =
+    Number(powerInput.value);
+
+
+
+    vehicleData.engine.torque =
+    Number(torqueInput.value);
+
+
+
+    vehicleData.engine.idleRPM =
+    Number(idleRPMInput.value);
+
+
+
+    vehicleData.engine.maxRPM =
+    Number(maxRPMInput.value);
+
+
+
+    vehicle.rpm =
+    vehicleData.engine.idleRPM;
+
+
+
+    displayVehicleInfo();
+
+
+
+    console.log(
+        "Nouveaux réglages appliqués",
+        vehicleData
+    );
+
+
+};
+
+
+
+
+
+/* =========================
+        MENU
+========================= */
 
 
 settingsButton.onclick = ()=>{
@@ -246,6 +368,8 @@ closeSettings.onclick = ()=>{
 
 
 
+
+
 /* =========================
         BOITE
 ========================= */
@@ -256,7 +380,7 @@ function updateGearDisplay(){
 
     gearDisplay.textContent =
 
-    vehicle.gear === 0
+    vehicle.gear===0
 
     ?
 
@@ -275,8 +399,11 @@ function gearUp(){
 
 
     if(
-        vehicle.gear <
-        vehicleData.transmission.gears.length
+
+    vehicle.gear <
+
+    vehicleData.transmission.gears.length
+
     ){
 
         vehicle.gear++;
@@ -291,7 +418,7 @@ function gearUp(){
 function gearDown(){
 
 
-    if(vehicle.gear > 0){
+    if(vehicle.gear>0){
 
 
         vehicle.gear--;
@@ -300,6 +427,8 @@ function gearDown(){
 
 
 }
+
+
 
 
 
@@ -345,6 +474,8 @@ gearDownButton.onclick = gearDown;
 
 
 
+
+
 /* =========================
         PHYSIQUE MOTEUR
 ========================= */
@@ -353,12 +484,32 @@ gearDownButton.onclick = gearDown;
 function updateEngine(dt){
 
 
+
     if(vehicle.throttle){
+
+
+        let powerFactor =
+
+        vehicleData.engine.power / 150;
+
+
+
+        let torqueFactor =
+
+        vehicleData.engine.torque / 110;
+
 
 
         vehicle.rpm +=
 
-        8000 * dt;
+        8000 *
+
+        powerFactor *
+
+        torqueFactor *
+
+        dt;
+
 
 
     }
@@ -368,16 +519,20 @@ function updateEngine(dt){
 
         vehicle.rpm -=
 
-        5000 * dt;
+        5000 *
+
+        dt;
 
 
     }
 
 
 
+
     vehicle.rpm = Math.max(
 
         vehicleData.engine.idleRPM,
+
 
         Math.min(
 
@@ -405,19 +560,14 @@ function updateSpeed(dt){
 
     if(vehicle.gear===0){
 
-
-        vehicle.speed -=
-
-        10*dt;
-
+        vehicle.speed -= 10*dt;
 
     }
-
 
     else{
 
 
-        const ratio =
+        let ratio =
 
         vehicleData
 
@@ -427,14 +577,22 @@ function updateSpeed(dt){
 
 
 
-        const target =
+        let weightFactor =
+
+        200 /
+
+        vehicleData.mass;
+
+
+
+        let target =
 
 
         (
 
-            vehicle.rpm /
+        vehicle.rpm /
 
-            vehicleData.engine.maxRPM
+        vehicleData.engine.maxRPM
 
         )
 
@@ -442,29 +600,31 @@ function updateSpeed(dt){
 
         (
 
-            300 /
+        300 /
 
-            ratio
+        ratio
 
-        );
+        )
+
+        *
+
+        weightFactor;
 
 
 
         vehicle.speed +=
 
-
         (
 
-            target -
+        target -
 
-            vehicle.speed
+        vehicle.speed
 
         )
 
         *
 
         dt;
-
 
 
     }
@@ -483,7 +643,7 @@ function updateSpeed(dt){
 
 
 
-    vehicle.speed=Math.max(
+    vehicle.speed = Math.max(
 
         0,
 
@@ -493,6 +653,8 @@ function updateSpeed(dt){
 
 
 }
+
+
 
 
 
@@ -573,11 +735,17 @@ function drawGauge(ctx,value,max){
 
     ctx.lineTo(
 
-        cx+Math.cos(angle)*90,
+        cx+
 
-        cy+Math.sin(angle)*90
+        Math.cos(angle)*90,
+
+
+        cy+
+
+        Math.sin(angle)*90
 
     );
+
 
 
     ctx.strokeStyle="white";
@@ -590,7 +758,9 @@ function drawGauge(ctx,value,max){
 
     ctx.fillStyle="white";
 
+
     ctx.font="bold 32px Arial";
+
 
     ctx.textAlign="center";
 
@@ -607,6 +777,8 @@ function drawGauge(ctx,value,max){
 
 
 }
+
+
 
 
 
@@ -630,6 +802,7 @@ function startSimulation(){
 
 
 }
+
 
 
 
@@ -667,6 +840,7 @@ function loop(time){
     );
 
 
+
     drawGauge(
 
         rpmCtx,
@@ -683,6 +857,7 @@ function loop(time){
 
 
 }
+
 
 
 
