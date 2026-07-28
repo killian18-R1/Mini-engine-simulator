@@ -1,6 +1,30 @@
 /*
 ============================================================
  Mini Engine Simulator
+ Debug v0.0.1
+============================================================
+*/
+
+window.onerror = function(message, source, line){
+
+    let debug = document.getElementById("debug");
+
+    if(debug){
+
+        debug.innerHTML =
+        "Erreur JS : " + message +
+        "<br>Ligne : " + line;
+
+    }
+
+};
+
+
+console.log("Mini Engine Simulator JS chargé");
+
+/*
+============================================================
+ Mini Engine Simulator
  Version : v0.0.1
  Fichier : script.js
  Partie : 1 / 3
