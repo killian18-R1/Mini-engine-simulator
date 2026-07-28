@@ -12,6 +12,8 @@
     ETAT GLOBAL DU SIMULATEUR
 ========================================================== */
 
+console.log("SCRIPT OK v0.0.1");
+
 const simulator = {
 
     version: "v0.0.1",
