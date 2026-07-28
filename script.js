@@ -1,13 +1,58 @@
 /*
 ============================================================
  Mini Engine Simulator
- Version : v0.0.2
+ Version : v0.0.2a
  Fichier : script.js
 ============================================================
 */
 
 
-console.log("Mini Engine Simulator v0.0.2");
+console.log("Mini Engine Simulator v0.0.2a");
+
+
+
+/* ==========================================================
+   CONFIGURATION VEHICULE DE SECOURS
+========================================================== */
+
+
+const defaultVehicle = {
+
+    name:"Prototype Bike",
+
+    type:"motorcycle",
+
+    mass:200,
+
+    engine:{
+
+        power:150,
+
+        torque:110,
+
+        idleRPM:1300,
+
+        maxRPM:14000
+
+    },
+
+
+    transmission:{
+
+        gears:[
+
+            2.80,
+            2.05,
+            1.65,
+            1.35,
+            1.15,
+            1.00
+
+        ]
+
+    }
+
+};
 
 
 
@@ -15,17 +60,24 @@ let vehicleData;
 
 
 
+/* ==========================================================
+   ETAT SIMULATEUR
+========================================================== */
+
+
 const vehicle = {
+
 
     speed:0,
 
-    rpm:0,
+    rpm:1300,
 
     gear:0,
 
     throttle:false,
 
     brake:false
+
 
 };
 
@@ -42,6 +94,7 @@ document.getElementById("speedGauge");
 
 const rpmCanvas =
 document.getElementById("rpmGauge");
+
 
 
 const speedCtx =
@@ -82,71 +135,63 @@ document.getElementById("gearDown");
 
 async function loadVehicle(){
 
+
     try{
 
+
         const response = await fetch(
+
             "./vehicles/default.json"
+
         );
+
 
 
         if(!response.ok){
 
             throw new Error(
-                "Fichier véhicule introuvable"
+
+                "Impossible de charger default.json"
+
             );
 
         }
 
 
+
         vehicleData = await response.json();
 
 
-        vehicle.rpm =
-        vehicleData.engine.idleRPM;
-
 
         console.log(
+
             "Véhicule chargé :",
+
             vehicleData.name
+
         );
 
 
-        startSimulation();
-
-
     }
+
 
     catch(error){
 
 
-        console.error(error);
+        console.warn(error);
 
 
-        document.body.insertAdjacentHTML(
+        vehicleData = defaultVehicle;
 
-            "beforeend",
 
-            `
-            <div style="
-            position:fixed;
-            bottom:0;
-            left:0;
-            right:0;
-            background:red;
-            color:white;
-            padding:10px;
-            z-index:9999;
-            ">
-            ERREUR VEHICULE :
-            ${error.message}
-            </div>
-            `
+        console.log(
+
+            "Utilisation véhicule secours"
 
         );
 
-    }
 
-}
+    }
 
 
 
@@ -154,15 +199,6 @@ async function loadVehicle(){
 
     vehicleData.engine.idleRPM;
 
-
-
-    console.log(
-
-        "Véhicule chargé :",
-
-        vehicleData.name
-
-    );
 
 
     startSimulation();
@@ -173,7 +209,7 @@ async function loadVehicle(){
 
 
 /* ==========================================================
-   BOITE
+   RAPPORTS
 ========================================================== */
 
 
@@ -202,9 +238,9 @@ function gearUp(){
 
     if(
 
-    vehicle.gear <
+        vehicle.gear <
 
-    vehicleData.transmission.gears.length
+        vehicleData.transmission.gears.length
 
     ){
 
@@ -221,7 +257,7 @@ function gearUp(){
 function gearDown(){
 
 
-    if(vehicle.gear>0){
+    if(vehicle.gear > 0){
 
 
         vehicle.gear--;
@@ -242,7 +278,11 @@ gasButton.addEventListener(
 
 "pointerdown",
 
-()=>vehicle.throttle=true
+()=>{
+
+    vehicle.throttle=true;
+
+}
 
 );
 
@@ -251,16 +291,25 @@ gasButton.addEventListener(
 
 "pointerup",
 
-()=>vehicle.throttle=false
+()=>{
+
+    vehicle.throttle=false;
+
+}
 
 );
+
 
 
 gasButton.addEventListener(
 
 "pointerleave",
 
-()=>vehicle.throttle=false
+()=>{
+
+    vehicle.throttle=false;
+
+}
 
 );
 
@@ -270,25 +319,39 @@ brakeButton.addEventListener(
 
 "pointerdown",
 
-()=>vehicle.brake=true
+()=>{
+
+    vehicle.brake=true;
+
+}
 
 );
+
 
 
 brakeButton.addEventListener(
 
 "pointerup",
 
-()=>vehicle.brake=false
+()=>{
+
+    vehicle.brake=false;
+
+}
 
 );
+
 
 
 brakeButton.addEventListener(
 
 "pointerleave",
 
-()=>vehicle.brake=false
+()=>{
+
+    vehicle.brake=false;
+
+}
 
 );
 
@@ -301,11 +364,12 @@ gearDownButton.onclick = gearDown;
 
 
 /* ==========================================================
-   PHYSIQUE MOTEUR
+   MOTEUR
 ========================================================== */
 
 
 function updateEngine(dt){
+
 
 
     if(vehicle.throttle){
@@ -350,11 +414,12 @@ function updateEngine(dt){
 
 
 /* ==========================================================
-   VITESSE
+   TRANSMISSION
 ========================================================== */
 
 
 function updateSpeed(dt){
+
 
 
     if(vehicle.gear===0){
@@ -362,15 +427,16 @@ function updateSpeed(dt){
 
         vehicle.speed -=
 
-        15*dt;
+        20 * dt;
 
 
     }
 
+
     else{
 
 
-        let ratio =
+        const gearRatio =
 
         vehicleData
 
@@ -380,7 +446,7 @@ function updateSpeed(dt){
 
 
 
-        let target =
+        const targetSpeed =
 
 
         (
@@ -397,7 +463,7 @@ function updateSpeed(dt){
 
             300 /
 
-            ratio
+            gearRatio
 
         );
 
@@ -405,9 +471,10 @@ function updateSpeed(dt){
 
         vehicle.speed +=
 
+
         (
 
-            target -
+            targetSpeed -
 
             vehicle.speed
 
@@ -427,7 +494,7 @@ function updateSpeed(dt){
 
         vehicle.speed -=
 
-        120*dt;
+        120 * dt;
 
 
     }
@@ -442,6 +509,7 @@ function updateSpeed(dt){
 
     );
 
+
 }
 
 
@@ -451,15 +519,19 @@ function updateSpeed(dt){
 ========================================================== */
 
 
-function drawGauge(ctx,value,max){
+function drawGauge(ctx,value,maxValue){
 
 
-    let cx =
-    ctx.canvas.width/2;
+
+    const cx =
+
+    ctx.canvas.width / 2;
 
 
-    let cy =
-    ctx.canvas.height/2;
+
+    const cy =
+
+    ctx.canvas.height / 2;
 
 
 
@@ -503,19 +575,25 @@ function drawGauge(ctx,value,max){
 
 
 
-    let angle =
+
+    const angle =
+
 
     -Math.PI*0.75
 
     +
 
-    Math.PI*1.5*
+    (
 
-    Math.min(
+        Math.PI*1.5 *
 
-        value/max,
+        Math.min(
 
-        1
+            value/maxValue,
+
+            1
+
+        )
 
     );
 
@@ -524,20 +602,28 @@ function drawGauge(ctx,value,max){
     ctx.beginPath();
 
 
-    ctx.moveTo(cx,cy);
+    ctx.moveTo(
+
+        cx,
+
+        cy
+
+    );
 
 
     ctx.lineTo(
 
-        cx+
+        cx +
 
         Math.cos(angle)*90,
 
-        cy+
+
+        cy +
 
         Math.sin(angle)*90
 
     );
+
 
 
     ctx.strokeStyle="white";
@@ -555,6 +641,7 @@ function drawGauge(ctx,value,max){
     ctx.textAlign="center";
 
 
+
     ctx.fillText(
 
         Math.floor(value),
@@ -565,12 +652,13 @@ function drawGauge(ctx,value,max){
 
     );
 
+
 }
 
 
 
 /* ==========================================================
-   BOUCLE
+   BOUCLE SIMULATION
 ========================================================== */
 
 
@@ -594,13 +682,14 @@ function startSimulation(){
 function loop(time){
 
 
-    let dt =
+    const dt =
 
     (
 
         time-lastTime
 
-    )/1000;
+    ) / 1000;
+
 
 
     lastTime=time;
@@ -626,6 +715,7 @@ function loop(time){
         300
 
     );
+
 
 
     drawGauge(
