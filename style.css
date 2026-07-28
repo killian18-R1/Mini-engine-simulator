@@ -1,52 +1,46 @@
-/* ===========================================================
-   Mini Engine Simulator
-   Version : v0.0.1
-   Fichier : style.css
-   =========================================================== */
+/*
+============================================================
+ Mini Engine Simulator
+ Version : v0.0.1c
+ Fichier : style.css
+============================================================
+*/
 
-#debug{
 
-    position:fixed;
+/* =========================
+        VARIABLES
+========================= */
 
-    bottom:0;
-
-    left:0;
-
-    right:0;
-
-    background:#330000;
-
-    color:#ff5555;
-
-    font-size:12px;
-
-    padding:5px;
-
-    z-index:999;
-
-}
 
 :root{
 
-    --background:#181818;
-    --panel:#242424;
+    --background:#151515;
+
+    --panel:#222222;
 
     --orange:#ff7a00;
 
     --white:#ffffff;
 
-    --lightGray:#9d9d9d;
+    --grey:#999999;
 
-    --button:#363636;
-
-    --buttonPressed:#ff7a00;
+    --button:#333333;
 
 }
+
+
+
+/* =========================
+        RESET
+========================= */
+
 
 *{
 
     margin:0;
+
     padding:0;
+
     box-sizing:border-box;
 
     font-family:Arial, Helvetica, sans-serif;
@@ -54,6 +48,8 @@
     user-select:none;
 
 }
+
+
 
 body{
 
@@ -63,27 +59,38 @@ body{
 
     height:100vh;
 
+    overflow:hidden;
+
     display:flex;
 
     flex-direction:column;
 
 }
 
-/* =======================
+
+
+/* =========================
         TOP BAR
-======================= */
+========================= */
+
 
 .topbar{
+
+    height:60px;
 
     display:flex;
 
     justify-content:flex-end;
 
+    align-items:center;
+
     gap:12px;
 
-    padding:15px 18px;
+    padding:10px 20px;
 
 }
+
+
 
 .topButton{
 
@@ -99,25 +106,26 @@ body{
 
     color:white;
 
-    cursor:pointer;
-
-    transition:.15s;
-
-    font-size:18px;
+    font-size:20px;
 
 }
+
+
 
 .topButton:active{
 
-    background:var(--buttonPressed);
+    background:var(--orange);
 
 }
 
-/* =======================
-      DASHBOARD
-======================= */
 
-main{
+
+/* =========================
+      TABLEAU DE BORD
+========================= */
+
+
+.dashboard{
 
     flex:1;
 
@@ -127,25 +135,16 @@ main{
 
     align-items:center;
 
-}
-
-.dashboard{
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
     gap:45px;
 
-    width:100%;
-
 }
 
-/* =======================
-        GAUGES
-======================= */
+
+
+/* =========================
+        CADRANS
+========================= */
+
 
 .gauge{
 
@@ -157,6 +156,8 @@ main{
 
 }
 
+
+
 .gauge canvas{
 
     width:100%;
@@ -165,15 +166,17 @@ main{
 
 }
 
+
+
 .gaugeLabel{
 
     position:absolute;
 
-    bottom:12px;
+    bottom:18px;
 
-    left:50%;
+    width:100%;
 
-    transform:translateX(-50%);
+    text-align:center;
 
     color:var(--orange);
 
@@ -185,9 +188,12 @@ main{
 
 }
 
-/* =======================
-     GEAR DISPLAY
-======================= */
+
+
+/* =========================
+      RAPPORT ENGAGE
+========================= */
+
 
 #gearDisplay{
 
@@ -195,11 +201,11 @@ main{
 
     height:95px;
 
-    border-radius:12px;
-
     background:white;
 
     color:var(--orange);
+
+    border-radius:12px;
 
     display:flex;
 
@@ -213,15 +219,20 @@ main{
 
 }
 
-/* =======================
-      CONTROLS
-======================= */
+
+
+/* =========================
+        COMMANDES
+========================= */
+
 
 footer{
 
-    padding-bottom:10px;
+    padding-bottom:15px;
 
 }
+
+
 
 .controls{
 
@@ -233,107 +244,114 @@ footer{
 
     gap:30px;
 
-    margin-bottom:10px;
-
 }
+
+
 
 .controlButton{
 
     width:140px;
 
-    height:82px;
+    height:80px;
+
+    background:var(--button);
+
+    color:white;
 
     border:none;
 
     border-radius:12px;
 
-    background:var(--button);
-
-    color:white;
-
     font-size:22px;
 
-    cursor:pointer;
-
-    transition:.12s;
-
 }
+
+
 
 .controlButton:active{
 
-    background:var(--buttonPressed);
+    background:var(--orange);
 
 }
 
-.gearButtons{
+
+
+.gearControls{
 
     display:flex;
 
-    gap:12px;
+    gap:10px;
 
 }
 
-.gearButtons button{
 
-    width:62px;
 
-    height:62px;
+.gearButton{
+
+    width:60px;
+
+    height:60px;
+
+    background:var(--button);
+
+    color:white;
 
     border:none;
 
     border-radius:10px;
 
-    background:var(--button);
-
-    color:white;
-
     font-size:30px;
 
-    cursor:pointer;
+}
 
-    transition:.12s;
+
+
+.gearButton:active{
+
+    background:var(--orange);
 
 }
 
-.gearButtons button:active{
 
-    background:var(--buttonPressed);
 
-}
+/* =========================
+          VERSION
+========================= */
 
-/* =======================
-      VERSION
-======================= */
 
 #version{
 
     text-align:center;
 
-    color:var(--lightGray);
+    margin-top:10px;
 
     font-size:11px;
 
-    margin-top:8px;
-
-    margin-bottom:4px;
+    color:var(--grey);
 
     letter-spacing:1px;
 
 }
 
-/* =======================
-    RESPONSIVE MOBILE
-======================= */
 
-@media (max-width:900px){
+
+/* =========================
+       MOBILE ANDROID
+========================= */
+
+
+@media(max-width:800px){
+
 
     .dashboard{
 
         flex-direction:column;
 
-        gap:18px;
+        gap:15px;
 
     }
+
+
 
     .gauge{
 
@@ -343,38 +361,47 @@ footer{
 
     }
 
+
+
     #gearDisplay{
 
-        width:82px;
+        width:75px;
 
-        height:82px;
+        height:75px;
 
-        font-size:46px;
+        font-size:42px;
 
     }
+
+
 
     .controls{
 
-        gap:12px;
+        gap:10px;
 
     }
+
+
 
     .controlButton{
 
         width:105px;
 
-        height:70px;
+        height:65px;
 
-        font-size:20px;
+        font-size:18px;
+
+    }
+
+
+
+    .gearButton{
+
+        width:50px;
+
+        height:50px;
 
     }
 
-    .gearButtons button{
-
-        width:55px;
-
-        height:55px;
-
-    }
 
 }
