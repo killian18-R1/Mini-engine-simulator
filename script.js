@@ -1,60 +1,33 @@
 /*
 ============================================================
  Mini Engine Simulator
- Version : v0.0.1d
+ Version : v0.0.2
  Fichier : script.js
 ============================================================
 */
 
 
-console.log("Mini Engine Simulator v0.0.1d chargé");
+console.log("Mini Engine Simulator v0.0.2");
 
 
 
-/* ==========================================================
-   DONNEES VEHICULE
-========================================================== */
+let vehicleData;
+
 
 
 const vehicle = {
 
-    speed: 0,
+    speed:0,
 
-    rpm: 1300,
+    rpm:0,
 
-    idleRPM: 1300,
+    gear:0,
 
-    maxRPM: 14000,
+    throttle:false,
 
-    gear: 0,
-
-    maxGear: 6,
-
-    throttle: false,
-
-    brake: false
+    brake:false
 
 };
-
-
-
-const gearbox = [
-
-    0,
-
-    2.80,
-
-    2.05,
-
-    1.65,
-
-    1.35,
-
-    1.15,
-
-    1.00
-
-];
 
 
 
@@ -63,56 +36,106 @@ const gearbox = [
 ========================================================== */
 
 
-const speedCanvas = document.getElementById("speedGauge");
-
-const rpmCanvas = document.getElementById("rpmGauge");
-
-
-const speedCtx = speedCanvas.getContext("2d");
-
-const rpmCtx = rpmCanvas.getContext("2d");
+const speedCanvas =
+document.getElementById("speedGauge");
 
 
-const gearDisplay = document.getElementById("gearDisplay");
+const rpmCanvas =
+document.getElementById("rpmGauge");
 
 
-const gasButton = document.getElementById("gasButton");
+const speedCtx =
+speedCanvas.getContext("2d");
 
-const brakeButton = document.getElementById("brakeButton");
 
-const gearUpButton = document.getElementById("gearUp");
+const rpmCtx =
+rpmCanvas.getContext("2d");
 
-const gearDownButton = document.getElementById("gearDown");
+
+
+const gearDisplay =
+document.getElementById("gearDisplay");
+
+
+
+const gasButton =
+document.getElementById("gasButton");
+
+
+const brakeButton =
+document.getElementById("brakeButton");
+
+
+const gearUpButton =
+document.getElementById("gearUp");
+
+
+const gearDownButton =
+document.getElementById("gearDown");
 
 
 
 /* ==========================================================
-   OUTILS
+   CHARGEMENT VEHICULE
 ========================================================== */
 
 
-function clamp(value,min,max){
+async function loadVehicle(){
 
-    return Math.max(min,Math.min(max,value));
+
+    const response = await fetch(
+
+        "vehicles/default.json"
+
+    );
+
+
+    vehicleData = await response.json();
+
+
+
+    vehicle.rpm =
+
+    vehicleData.engine.idleRPM;
+
+
+
+    console.log(
+
+        "Véhicule chargé :",
+
+        vehicleData.name
+
+    );
+
+
+    startSimulation();
+
 
 }
 
 
 
 /* ==========================================================
-   BOITE DE VITESSE
+   BOITE
 ========================================================== */
 
 
 function updateGearDisplay(){
 
+
     gearDisplay.textContent =
 
     vehicle.gear === 0
 
-    ? "N"
+    ?
 
-    : vehicle.gear;
+    "N"
+
+    :
+
+    vehicle.gear;
+
 
 }
 
@@ -120,13 +143,20 @@ function updateGearDisplay(){
 
 function gearUp(){
 
-    if(vehicle.gear < vehicle.maxGear){
+
+    if(
+
+    vehicle.gear <
+
+    vehicleData.transmission.gears.length
+
+    ){
+
 
         vehicle.gear++;
 
-        updateGearDisplay();
-
     }
+
 
 }
 
@@ -134,13 +164,14 @@ function gearUp(){
 
 function gearDown(){
 
-    if(vehicle.gear > 0){
+
+    if(vehicle.gear>0){
+
 
         vehicle.gear--;
 
-        updateGearDisplay();
-
     }
+
 
 }
 
@@ -151,107 +182,70 @@ function gearDown(){
 ========================================================== */
 
 
-gasButton.addEventListener("pointerdown",()=>{
+gasButton.addEventListener(
 
-    vehicle.throttle=true;
+"pointerdown",
 
-});
+()=>vehicle.throttle=true
 
-
-gasButton.addEventListener("pointerup",()=>{
-
-    vehicle.throttle=false;
-
-});
+);
 
 
-gasButton.addEventListener("pointerleave",()=>{
+gasButton.addEventListener(
 
-    vehicle.throttle=false;
+"pointerup",
 
-});
+()=>vehicle.throttle=false
 
-
-
-brakeButton.addEventListener("pointerdown",()=>{
-
-    vehicle.brake=true;
-
-});
+);
 
 
-brakeButton.addEventListener("pointerup",()=>{
+gasButton.addEventListener(
 
-    vehicle.brake=false;
+"pointerleave",
 
-});
+()=>vehicle.throttle=false
 
-
-brakeButton.addEventListener("pointerleave",()=>{
-
-    vehicle.brake=false;
-
-});
+);
 
 
 
-gearUpButton.addEventListener("click",gearUp);
+brakeButton.addEventListener(
 
-gearDownButton.addEventListener("click",gearDown);
+"pointerdown",
 
+()=>vehicle.brake=true
 
-
-/* ==========================================================
-   CLAVIER PC
-========================================================== */
+);
 
 
-document.addEventListener("keydown",(event)=>{
+brakeButton.addEventListener(
+
+"pointerup",
+
+()=>vehicle.brake=false
+
+);
 
 
-    if(event.code==="ArrowUp")
+brakeButton.addEventListener(
 
-        vehicle.throttle=true;
+"pointerleave",
 
+()=>vehicle.brake=false
 
-    if(event.code==="ArrowDown")
-
-        vehicle.brake=true;
-
-
-    if(event.code==="KeyE")
-
-        gearUp();
-
-
-    if(event.code==="KeyA")
-
-        gearDown();
-
-
-});
+);
 
 
 
-document.addEventListener("keyup",(event)=>{
+gearUpButton.onclick = gearUp;
 
-
-    if(event.code==="ArrowUp")
-
-        vehicle.throttle=false;
-
-
-    if(event.code==="ArrowDown")
-
-        vehicle.brake=false;
-
-
-});
+gearDownButton.onclick = gearDown;
 
 
 
 /* ==========================================================
-   MOTEUR
+   PHYSIQUE MOTEUR
 ========================================================== */
 
 
@@ -261,7 +255,9 @@ function updateEngine(dt){
     if(vehicle.throttle){
 
 
-        vehicle.rpm += 8000 * dt;
+        vehicle.rpm +=
+
+        8000 * dt;
 
 
     }
@@ -269,39 +265,48 @@ function updateEngine(dt){
     else{
 
 
-        vehicle.rpm -= 5000 * dt;
+        vehicle.rpm -=
+
+        5000 * dt;
 
 
     }
 
 
 
-    vehicle.rpm = clamp(
+    vehicle.rpm = Math.max(
 
-        vehicle.rpm,
+        vehicleData.engine.idleRPM,
 
-        vehicle.idleRPM,
+        Math.min(
 
-        vehicle.maxRPM
+            vehicle.rpm,
+
+            vehicleData.engine.maxRPM
+
+        )
 
     );
+
 
 }
 
 
 
 /* ==========================================================
-   TRANSMISSION
+   VITESSE
 ========================================================== */
 
 
 function updateSpeed(dt){
 
 
-    if(vehicle.gear === 0){
+    if(vehicle.gear===0){
 
 
-        vehicle.speed -= 15 * dt;
+        vehicle.speed -=
+
+        15*dt;
 
 
     }
@@ -309,16 +314,24 @@ function updateSpeed(dt){
     else{
 
 
-        const ratio = gearbox[vehicle.gear];
+        let ratio =
+
+        vehicleData
+
+        .transmission
+
+        .gears[vehicle.gear-1];
 
 
-        const targetSpeed =
+
+        let target =
+
 
         (
 
             vehicle.rpm /
 
-            vehicle.maxRPM
+            vehicleData.engine.maxRPM
 
         )
 
@@ -338,7 +351,7 @@ function updateSpeed(dt){
 
         (
 
-            targetSpeed -
+            target -
 
             vehicle.speed
 
@@ -349,7 +362,6 @@ function updateSpeed(dt){
         dt;
 
 
-
     }
 
 
@@ -357,7 +369,9 @@ function updateSpeed(dt){
     if(vehicle.brake){
 
 
-        vehicle.speed -= 120 * dt;
+        vehicle.speed -=
+
+        120*dt;
 
 
     }
@@ -377,21 +391,20 @@ function updateSpeed(dt){
 
 
 /* ==========================================================
-   CADRANS CANVAS
+   AFFICHAGE CADRANS
 ========================================================== */
 
 
-function drawGauge(ctx,value,maxValue){
+function drawGauge(ctx,value,max){
 
 
-    const width = ctx.canvas.width;
+    let cx =
+    ctx.canvas.width/2;
 
-    const height = ctx.canvas.height;
 
+    let cy =
+    ctx.canvas.height/2;
 
-    const centerX = width/2;
-
-    const centerY = height/2;
 
 
     ctx.clearRect(
@@ -400,24 +413,22 @@ function drawGauge(ctx,value,maxValue){
 
         0,
 
-        width,
+        ctx.canvas.width,
 
-        height
+        ctx.canvas.height
 
     );
 
 
 
-    // cercle
-
-
     ctx.beginPath();
+
 
     ctx.arc(
 
-        centerX,
+        cx,
 
-        centerY,
+        cy,
 
         120,
 
@@ -436,72 +447,19 @@ function drawGauge(ctx,value,maxValue){
 
 
 
-    // graduations
-
-
-    for(let i=0;i<=10;i++){
-
-
-        let angle =
-
-        -Math.PI*0.75
-
-        +
-
-        (
-
-            Math.PI*1.5*i/10
-
-        );
-
-
-
-        ctx.beginPath();
-
-
-        ctx.moveTo(
-
-            centerX + Math.cos(angle)*100,
-
-            centerY + Math.sin(angle)*100
-
-        );
-
-
-        ctx.lineTo(
-
-            centerX + Math.cos(angle)*115,
-
-            centerY + Math.sin(angle)*115
-
-        );
-
-
-        ctx.strokeStyle="white";
-
-        ctx.lineWidth=3;
-
-        ctx.stroke();
-
-
-    }
-
-
-
-    // aiguille
-
-
     let angle =
 
     -Math.PI*0.75
 
     +
 
-    (
+    Math.PI*1.5*
 
-        Math.PI*1.5 *
+    Math.min(
 
-        clamp(value/maxValue,0,1)
+        value/max,
+
+        1
 
     );
 
@@ -510,14 +468,18 @@ function drawGauge(ctx,value,maxValue){
     ctx.beginPath();
 
 
-    ctx.moveTo(centerX,centerY);
+    ctx.moveTo(cx,cy);
 
 
     ctx.lineTo(
 
-        centerX + Math.cos(angle)*90,
+        cx+
 
-        centerY + Math.sin(angle)*90
+        Math.cos(angle)*90,
+
+        cy+
+
+        Math.sin(angle)*90
 
     );
 
@@ -528,9 +490,6 @@ function drawGauge(ctx,value,maxValue){
 
     ctx.stroke();
 
-
-
-    // valeur
 
 
     ctx.fillStyle="white";
@@ -544,27 +503,39 @@ function drawGauge(ctx,value,maxValue){
 
         Math.floor(value),
 
-        centerX,
+        cx,
 
-        centerY+55
+        cy+55
 
     );
-
 
 }
 
 
 
 /* ==========================================================
-   BOUCLE PRINCIPALE
+   BOUCLE
 ========================================================== */
 
 
-let lastTime = performance.now();
+let lastTime;
 
 
 
-function gameLoop(time){
+function startSimulation(){
+
+
+    lastTime = performance.now();
+
+
+    requestAnimationFrame(loop);
+
+
+}
+
+
+
+function loop(time){
 
 
     let dt =
@@ -573,8 +544,7 @@ function gameLoop(time){
 
         time-lastTime
 
-    ) / 1000;
-
+    )/1000;
 
 
     lastTime=time;
@@ -602,26 +572,23 @@ function gameLoop(time){
     );
 
 
-
     drawGauge(
 
         rpmCtx,
 
         vehicle.rpm,
 
-        vehicle.maxRPM
+        vehicleData.engine.maxRPM
 
     );
 
 
 
-    requestAnimationFrame(gameLoop);
+    requestAnimationFrame(loop);
+
 
 }
 
 
 
-updateGearDisplay();
-
-
-requestAnimationFrame(gameLoop);
+loadVehicle();
