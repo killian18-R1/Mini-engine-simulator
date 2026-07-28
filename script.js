@@ -1,68 +1,34 @@
 /*
 ============================================================
  Mini Engine Simulator
- Version : v0.0.2a
+ Version : v0.0.3
  Fichier : script.js
 ============================================================
 */
 
 
-console.log("Mini Engine Simulator v0.0.2a");
+/* =========================
+        VERSION UNIQUE
+========================= */
+
+
+const GAME_VERSION = "v0.0.3";
+
+
+console.log(
+    "Mini Engine Simulator",
+    GAME_VERSION
+);
 
 
 
-/* ==========================================================
-   CONFIGURATION VEHICULE DE SECOURS
-========================================================== */
-
-
-const defaultVehicle = {
-
-    name:"Prototype Bike",
-
-    type:"motorcycle",
-
-    mass:200,
-
-    engine:{
-
-        power:150,
-
-        torque:110,
-
-        idleRPM:1300,
-
-        maxRPM:14000
-
-    },
-
-
-    transmission:{
-
-        gears:[
-
-            2.80,
-            2.05,
-            1.65,
-            1.35,
-            1.15,
-            1.00
-
-        ]
-
-    }
-
-};
-
+/* =========================
+        DONNEES VEHICULE
+========================= */
 
 
 let vehicleData;
 
-
-
-/* ==========================================================
-   ETAT SIMULATEUR
-========================================================== */
 
 
 const vehicle = {
@@ -70,7 +36,7 @@ const vehicle = {
 
     speed:0,
 
-    rpm:1300,
+    rpm:0,
 
     gear:0,
 
@@ -83,9 +49,9 @@ const vehicle = {
 
 
 
-/* ==========================================================
-   ELEMENTS HTML
-========================================================== */
+/* =========================
+        ELEMENTS HTML
+========================= */
 
 
 const speedCanvas =
@@ -94,7 +60,6 @@ document.getElementById("speedGauge");
 
 const rpmCanvas =
 document.getElementById("rpmGauge");
-
 
 
 const speedCtx =
@@ -108,6 +73,28 @@ rpmCanvas.getContext("2d");
 
 const gearDisplay =
 document.getElementById("gearDisplay");
+
+
+
+const versionDisplay =
+document.getElementById("version");
+
+
+
+const settingsButton =
+document.getElementById("settingsButton");
+
+
+const settingsPanel =
+document.getElementById("settingsPanel");
+
+
+const closeSettings =
+document.getElementById("closeSettings");
+
+
+const vehicleInfo =
+document.getElementById("vehicleInfo");
 
 
 
@@ -128,9 +115,18 @@ document.getElementById("gearDown");
 
 
 
-/* ==========================================================
-   CHARGEMENT VEHICULE
-========================================================== */
+/* =========================
+        VERSION AFFICHAGE
+========================= */
+
+
+versionDisplay.textContent = GAME_VERSION;
+
+
+
+/* =========================
+        CHARGEMENT VEHICULE
+========================= */
 
 
 async function loadVehicle(){
@@ -140,23 +136,8 @@ async function loadVehicle(){
 
 
         const response = await fetch(
-
             "./vehicles/default.json"
-
         );
-
-
-
-        if(!response.ok){
-
-            throw new Error(
-
-                "Impossible de charger default.json"
-
-            );
-
-        }
-
 
 
         vehicleData = await response.json();
@@ -164,12 +145,21 @@ async function loadVehicle(){
 
 
         console.log(
-
             "Véhicule chargé :",
-
             vehicleData.name
-
         );
+
+
+        vehicle.rpm =
+        vehicleData.engine.idleRPM;
+
+
+
+        displayVehicleInfo();
+
+
+
+        startSimulation();
 
 
     }
@@ -178,39 +168,87 @@ async function loadVehicle(){
     catch(error){
 
 
-        console.warn(error);
-
-
-        vehicleData = defaultVehicle;
-
-
-        console.log(
-
-            "Utilisation véhicule secours"
-
+        console.error(
+            "Erreur chargement véhicule",
+            error
         );
 
 
     }
 
 
-
-    vehicle.rpm =
-
-    vehicleData.engine.idleRPM;
+}
 
 
 
-    startSimulation();
+/* =========================
+        MENU PARAMETRES
+========================= */
+
+
+function displayVehicleInfo(){
+
+
+    vehicleInfo.innerHTML = `
+
+
+    <b>Nom :</b> ${vehicleData.name}<br>
+
+    <b>Type :</b> ${vehicleData.type}<br>
+
+    <b>Masse :</b> ${vehicleData.mass} kg<br><br>
+
+
+    <b>Moteur</b><br>
+
+    Puissance :
+    ${vehicleData.engine.power} ch<br>
+
+    Couple :
+    ${vehicleData.engine.torque} Nm<br>
+
+    Régime ralenti :
+    ${vehicleData.engine.idleRPM} tr/min<br>
+
+    Régime maximum :
+    ${vehicleData.engine.maxRPM} tr/min<br><br>
+
+
+    <b>Transmission</b><br>
+
+    Rapports :
+    ${vehicleData.transmission.gears.length}
+
+    `;
 
 
 }
 
 
 
-/* ==========================================================
-   RAPPORTS
-========================================================== */
+settingsButton.onclick = ()=>{
+
+
+    settingsPanel.style.display="flex";
+
+
+};
+
+
+
+closeSettings.onclick = ()=>{
+
+
+    settingsPanel.style.display="none";
+
+
+};
+
+
+
+/* =========================
+        BOITE
+========================= */
 
 
 function updateGearDisplay(){
@@ -237,13 +275,9 @@ function gearUp(){
 
 
     if(
-
         vehicle.gear <
-
         vehicleData.transmission.gears.length
-
     ){
-
 
         vehicle.gear++;
 
@@ -269,107 +303,54 @@ function gearDown(){
 
 
 
-/* ==========================================================
-   COMMANDES
-========================================================== */
+/* =========================
+        COMMANDES
+========================= */
 
 
-gasButton.addEventListener(
-
-"pointerdown",
-
-()=>{
+gasButton.onpointerdown = ()=>{
 
     vehicle.throttle=true;
 
-}
-
-);
+};
 
 
-gasButton.addEventListener(
-
-"pointerup",
-
-()=>{
+gasButton.onpointerup = ()=>{
 
     vehicle.throttle=false;
 
-}
-
-);
+};
 
 
 
-gasButton.addEventListener(
-
-"pointerleave",
-
-()=>{
-
-    vehicle.throttle=false;
-
-}
-
-);
-
-
-
-brakeButton.addEventListener(
-
-"pointerdown",
-
-()=>{
+brakeButton.onpointerdown = ()=>{
 
     vehicle.brake=true;
 
-}
-
-);
+};
 
 
-
-brakeButton.addEventListener(
-
-"pointerup",
-
-()=>{
+brakeButton.onpointerup = ()=>{
 
     vehicle.brake=false;
 
-}
-
-);
-
-
-
-brakeButton.addEventListener(
-
-"pointerleave",
-
-()=>{
-
-    vehicle.brake=false;
-
-}
-
-);
+};
 
 
 
 gearUpButton.onclick = gearUp;
 
+
 gearDownButton.onclick = gearDown;
 
 
 
-/* ==========================================================
-   MOTEUR
-========================================================== */
+/* =========================
+        PHYSIQUE MOTEUR
+========================= */
 
 
 function updateEngine(dt){
-
 
 
     if(vehicle.throttle){
@@ -413,9 +394,9 @@ function updateEngine(dt){
 
 
 
-/* ==========================================================
-   TRANSMISSION
-========================================================== */
+/* =========================
+        VITESSE
+========================= */
 
 
 function updateSpeed(dt){
@@ -427,7 +408,7 @@ function updateSpeed(dt){
 
         vehicle.speed -=
 
-        20 * dt;
+        10*dt;
 
 
     }
@@ -436,7 +417,7 @@ function updateSpeed(dt){
     else{
 
 
-        const gearRatio =
+        const ratio =
 
         vehicleData
 
@@ -446,7 +427,7 @@ function updateSpeed(dt){
 
 
 
-        const targetSpeed =
+        const target =
 
 
         (
@@ -463,7 +444,7 @@ function updateSpeed(dt){
 
             300 /
 
-            gearRatio
+            ratio
 
         );
 
@@ -474,7 +455,7 @@ function updateSpeed(dt){
 
         (
 
-            targetSpeed -
+            target -
 
             vehicle.speed
 
@@ -483,6 +464,7 @@ function updateSpeed(dt){
         *
 
         dt;
+
 
 
     }
@@ -494,14 +476,14 @@ function updateSpeed(dt){
 
         vehicle.speed -=
 
-        120 * dt;
+        100*dt;
 
 
     }
 
 
 
-    vehicle.speed = Math.max(
+    vehicle.speed=Math.max(
 
         0,
 
@@ -514,24 +496,20 @@ function updateSpeed(dt){
 
 
 
-/* ==========================================================
-   AFFICHAGE CADRANS
-========================================================== */
+/* =========================
+        CADRANS
+========================= */
 
 
-function drawGauge(ctx,value,maxValue){
-
+function drawGauge(ctx,value,max){
 
 
     const cx =
-
-    ctx.canvas.width / 2;
-
+    ctx.canvas.width/2;
 
 
     const cy =
-
-    ctx.canvas.height / 2;
+    ctx.canvas.height/2;
 
 
 
@@ -575,55 +553,31 @@ function drawGauge(ctx,value,maxValue){
 
 
 
-
     const angle =
-
 
     -Math.PI*0.75
 
     +
 
-    (
+    Math.PI*1.5*
 
-        Math.PI*1.5 *
-
-        Math.min(
-
-            value/maxValue,
-
-            1
-
-        )
-
-    );
+    Math.min(value/max,1);
 
 
 
     ctx.beginPath();
 
 
-    ctx.moveTo(
-
-        cx,
-
-        cy
-
-    );
+    ctx.moveTo(cx,cy);
 
 
     ctx.lineTo(
 
-        cx +
+        cx+Math.cos(angle)*90,
 
-        Math.cos(angle)*90,
-
-
-        cy +
-
-        Math.sin(angle)*90
+        cy+Math.sin(angle)*90
 
     );
-
 
 
     ctx.strokeStyle="white";
@@ -641,7 +595,6 @@ function drawGauge(ctx,value,maxValue){
     ctx.textAlign="center";
 
 
-
     ctx.fillText(
 
         Math.floor(value),
@@ -657,9 +610,9 @@ function drawGauge(ctx,value,maxValue){
 
 
 
-/* ==========================================================
-   BOUCLE SIMULATION
-========================================================== */
+/* =========================
+        BOUCLE
+========================= */
 
 
 let lastTime;
@@ -669,7 +622,8 @@ let lastTime;
 function startSimulation(){
 
 
-    lastTime = performance.now();
+    lastTime =
+    performance.now();
 
 
     requestAnimationFrame(loop);
@@ -684,11 +638,7 @@ function loop(time){
 
     const dt =
 
-    (
-
-        time-lastTime
-
-    ) / 1000;
+    (time-lastTime)/1000;
 
 
 
@@ -715,7 +665,6 @@ function loop(time){
         300
 
     );
-
 
 
     drawGauge(
