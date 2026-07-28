@@ -18,19 +18,24 @@
 
 
 <!-- =========================
-     BARRE SUPERIEURE
+        BARRE SUPERIEURE
 ========================= -->
+
 
 <header class="topbar">
 
 
 <button id="soundButton" class="topButton">
+
 🔇
+
 </button>
 
 
 <button id="settingsButton" class="topButton">
+
 ⚙
+
 </button>
 
 
@@ -39,8 +44,9 @@
 
 
 
+
 <!-- =========================
-     TABLEAU DE BORD
+        TABLEAU DE BORD
 ========================= -->
 
 
@@ -51,18 +57,22 @@
 <section class="gauge">
 
 
-<canvas id="speedGauge"
+<canvas 
+id="speedGauge"
 width="300"
 height="300">
 </canvas>
 
 
 <div class="gaugeLabel">
+
 KM/H
+
 </div>
 
 
 </section>
+
 
 
 
@@ -76,21 +86,26 @@ N
 
 
 
+
 <section class="gauge">
 
 
-<canvas id="rpmGauge"
+<canvas 
+id="rpmGauge"
 width="300"
 height="300">
 </canvas>
 
 
 <div class="gaugeLabel">
+
 RPM
+
 </div>
 
 
 </section>
+
 
 
 </main>
@@ -98,8 +113,9 @@ RPM
 
 
 
+
 <!-- =========================
-     COMMANDES
+        COMMANDES
 ========================= -->
 
 
@@ -109,7 +125,9 @@ RPM
 <div class="controls">
 
 
-<button id="brakeButton"
+
+<button 
+id="brakeButton"
 class="controlButton">
 
 Brake
@@ -122,7 +140,8 @@ Brake
 <div class="gearControls">
 
 
-<button id="gearDown"
+<button 
+id="gearDown"
 class="gearButton">
 
 -
@@ -131,7 +150,8 @@ class="gearButton">
 
 
 
-<button id="gearUp"
+<button 
+id="gearUp"
 class="gearButton">
 
 +
@@ -146,7 +166,8 @@ class="gearButton">
 
 
 
-<button id="gasButton"
+<button 
+id="gasButton"
 class="controlButton">
 
 Gaz
@@ -156,6 +177,7 @@ Gaz
 
 
 </div>
+
 
 
 
@@ -171,27 +193,35 @@ Gaz
 
 
 
+
+
 <!-- =========================
-     MENU PARAMETRES
+        MENU PARAMETRES
 ========================= -->
 
 
 <div id="settingsPanel">
 
 
+
 <div class="settingsBox">
 
 
-<button id="closeSettings">
+
+<button 
+id="closeSettings">
 
 ✕
 
 </button>
 
 
+
+
 <h2>
 Paramètres véhicule
 </h2>
+
 
 
 
@@ -203,10 +233,187 @@ Chargement...
 
 
 
+
+<hr>
+
+
+
+
+
+<h3>
+Modification véhicule
+</h3>
+
+
+
+
+
+
+<div class="parameter">
+
+
+<label for="massInput">
+
+Masse (kg)
+
+</label>
+
+
+<input
+
+id="massInput"
+
+type="number"
+
+value="200"
+
+>
+
+
+</div>
+
+
+
+
+
+
+
+<div class="parameter">
+
+
+<label for="powerInput">
+
+Puissance (ch)
+
+</label>
+
+
+<input
+
+id="powerInput"
+
+type="number"
+
+value="150"
+
+>
+
+
+</div>
+
+
+
+
+
+
+
+<div class="parameter">
+
+
+<label for="torqueInput">
+
+Couple (Nm)
+
+</label>
+
+
+<input
+
+id="torqueInput"
+
+type="number"
+
+value="110"
+
+>
+
+
+</div>
+
+
+
+
+
+
+
+<div class="parameter">
+
+
+<label for="idleRPMInput">
+
+Ralenti (tr/min)
+
+</label>
+
+
+<input
+
+id="idleRPMInput"
+
+type="number"
+
+value="1300"
+
+>
+
+
+</div>
+
+
+
+
+
+
+
+<div class="parameter">
+
+
+<label for="maxRPMInput">
+
+Régime maximum (tr/min)
+
+</label>
+
+
+<input
+
+id="maxRPMInput"
+
+type="number"
+
+value="14000"
+
+>
+
+
+</div>
+
+
+
+
+
+
+
+<button
+
+id="applySettings"
+
+class="applyButton">
+
+Appliquer
+
+</button>
+
+
+
+
+
 </div>
 
 
 </div>
+
+
 
 
 
