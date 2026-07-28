@@ -3,13 +3,13 @@
 
 <head>
 
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Mini Engine Simulator</title>
+<title>Mini Engine Simulator</title>
 
-    <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css">
 
 </head>
 
@@ -23,16 +23,19 @@
 
 <header class="topbar">
 
-    <button id="soundButton" class="topButton">
-        🔇
-    </button>
+
+<button id="soundButton" class="topButton">
+🔇
+</button>
 
 
-    <button id="settingsButton" class="topButton">
-        ⚙
-    </button>
+<button id="settingsButton" class="topButton">
+⚙
+</button>
+
 
 </header>
+
 
 
 
@@ -40,52 +43,54 @@
      TABLEAU DE BORD
 ========================= -->
 
+
 <main class="dashboard">
 
 
-    <!-- Compteur vitesse -->
 
-    <section class="gauge">
-
-        <canvas id="speedGauge"
-                width="300"
-                height="300">
-        </canvas>
-
-        <div class="gaugeLabel">
-            KM/H
-        </div>
-
-    </section>
+<section class="gauge">
 
 
+<canvas id="speedGauge"
+width="300"
+height="300">
+</canvas>
 
-    <!-- Rapport engagé -->
 
-    <section id="gearDisplay">
+<div class="gaugeLabel">
+KM/H
+</div>
 
-        N
 
-    </section>
+</section>
 
 
 
-    <!-- Compte tours -->
 
-    <section class="gauge">
+<section id="gearDisplay">
 
-        <canvas id="rpmGauge"
-                width="300"
-                height="300">
-        </canvas>
+N
+
+</section>
 
 
-        <div class="gaugeLabel">
-            RPM
-        </div>
 
-    </section>
 
+<section class="gauge">
+
+
+<canvas id="rpmGauge"
+width="300"
+height="300">
+</canvas>
+
+
+<div class="gaugeLabel">
+RPM
+</div>
+
+
+</section>
 
 
 </main>
@@ -94,74 +99,116 @@
 
 
 <!-- =========================
-        COMMANDES
+     COMMANDES
 ========================= -->
 
 
 <footer>
 
 
-    <div class="controls">
+<div class="controls">
 
 
-        <button id="brakeButton"
-                class="controlButton">
+<button id="brakeButton"
+class="controlButton">
 
-            Brake
+Brake
 
-        </button>
-
-
-
-        <div class="gearControls">
-
-
-            <button id="gearDown"
-                    class="gearButton">
-
-                -
-
-            </button>
-
-
-
-            <button id="gearUp"
-                    class="gearButton">
-
-                +
-
-            </button>
-
-
-        </div>
+</button>
 
 
 
 
-        <button id="gasButton"
-                class="controlButton">
-
-            Gaz
-
-        </button>
+<div class="gearControls">
 
 
+<button id="gearDown"
+class="gearButton">
 
-    </div>
+-
+
+</button>
 
 
 
-    <!-- Version -->
+<button id="gearUp"
+class="gearButton">
 
-    <div id="version">
++
 
-        v0.0.1c
+</button>
 
-    </div>
+
+
+</div>
+
+
+
+
+
+<button id="gasButton"
+class="controlButton">
+
+Gaz
+
+</button>
+
+
+
+</div>
+
+
+
+<div id="version">
+
+</div>
 
 
 
 </footer>
+
+
+
+
+
+<!-- =========================
+     MENU PARAMETRES
+========================= -->
+
+
+<div id="settingsPanel">
+
+
+<div class="settingsBox">
+
+
+<button id="closeSettings">
+
+✕
+
+</button>
+
+
+<h2>
+Paramètres véhicule
+</h2>
+
+
+
+<div id="vehicleInfo">
+
+Chargement...
+
+</div>
+
+
+
+</div>
+
+
+</div>
+
+
 
 
 
