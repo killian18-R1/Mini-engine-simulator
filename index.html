@@ -3,367 +3,197 @@
 
 <head>
 
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
-<title>Mini Engine Simulator</title>
+    <title>Mini Engine Simulator</title>
 
-<link rel="stylesheet" href="style.css">
+    <link rel="stylesheet"
+          href="style.css">
 
 </head>
 
-
 <body>
 
+    <!-- =========================
+            BARRE SUPERIEURE
+    ========================== -->
 
-<header class="topbar">
+    <header class="topbar">
 
+        <button id="soundButton"
+                class="topButton"
+                title="Son">
 
-<button id="soundButton" class="topButton">
-🔇
-</button>
+            🔇
 
+        </button>
 
-<button id="settingsButton" class="topButton">
-⚙
-</button>
+        <button id="settingsButton"
+                class="topButton"
+                title="Paramètres">
 
+            ⚙
 
-</header>
+        </button>
 
+    </header>
 
 
 
+    <!-- =========================
+            TABLEAU DE BORD
+    ========================== -->
 
-<main class="dashboard">
+    <main class="dashboard">
 
+        <!-- VITESSE -->
 
+        <section class="gauge">
 
-<section class="gauge">
+            <canvas id="speedGauge"
+                    width="300"
+                    height="300">
+            </canvas>
 
-<canvas 
-id="speedGauge"
-width="300"
-height="300">
-</canvas>
+            <div class="gaugeLabel">
 
+                KM/H
 
-<div class="gaugeLabel">
-KM/H
-</div>
+            </div>
 
+        </section>
 
-</section>
 
 
+        <!-- RAPPORT -->
 
+        <section id="gearDisplay">
 
+            N
 
-<section id="gearDisplay">
+        </section>
 
-N
 
-</section>
 
+        <!-- RPM -->
 
+        <section class="gauge">
 
+            <canvas id="rpmGauge"
+                    width="300"
+                    height="300">
+            </canvas>
 
+            <div class="gaugeLabel">
 
-<section class="gauge">
+                RPM
 
+            </div>
 
-<canvas 
-id="rpmGauge"
-width="300"
-height="300">
-</canvas>
+        </section>
 
+    </main>
 
-<div class="gaugeLabel">
 
-RPM
 
-</div>
+    <!-- =========================
+            COMMANDES
+    ========================== -->
 
+    <footer>
 
-</section>
+        <div class="controls">
 
+            <button id="brakeButton"
+                    class="controlButton">
 
+                Brake
 
-</main>
+            </button>
 
 
 
+            <div class="gearControls">
 
+                <button id="gearDown"
+                        class="gearButton">
 
+                    -
 
+                </button>
 
-<footer>
+                <button id="gearUp"
+                        class="gearButton">
 
+                    +
 
-<div class="controls">
+                </button>
 
+            </div>
 
 
-<button 
-id="brakeButton"
-class="controlButton">
 
-Brake
+            <button id="gasButton"
+                    class="controlButton">
 
-</button>
+                Gaz
 
+            </button>
 
+        </div>
 
 
-<div class="gearControls">
 
+        <div id="version">
 
-<button 
-id="gearDown"
-class="gearButton">
+            v0.0.5B
 
--
+        </div>
 
-</button>
+    </footer>
 
 
 
-<button 
-id="gearUp"
-class="gearButton">
+    <!-- =========================
+            FENETRE PARAMETRES
+    ========================== -->
 
-+
+    <div id="settingsPanel">
 
-</button>
+        <div class="settingsBox">
 
+            <button id="closeSettings">
 
+                ✕
 
-</div>
+            </button>
 
+            <h2>
 
+                Paramètres véhicule
 
+            </h2>
 
+            <div id="vehicleInfo">
 
-<button 
-id="gasButton"
-class="controlButton">
+                Chargement...
 
-Gaz
+            </div>
 
-</button>
+        </div>
 
+    </div>
 
 
-</div>
 
+    <!-- =========================
+            SCRIPT PRINCIPAL
+    ========================== -->
 
-
-
-
-<div id="version">
-
-</div>
-
-
-</footer>
-
-
-
-
-
-
-
-
-
-<div id="settingsPanel">
-
-
-
-<div class="settingsBox">
-
-
-
-<button id="closeSettings">
-
-✕
-
-</button>
-
-
-
-
-<h2>
-Paramètres véhicule
-</h2>
-
-
-
-
-<div id="vehicleInfo">
-
-Chargement...
-
-</div>
-
-
-
-
-<hr>
-
-
-
-<h3>
-Modification véhicule
-</h3>
-
-
-
-
-
-
-<div class="parameter">
-
-
-<label>
-Masse (kg)
-</label>
-
-
-<input 
-id="massInput"
-type="number">
-
-</div>
-
-
-
-
-
-
-
-<div class="parameter">
-
-
-<label>
-Puissance (ch)
-</label>
-
-
-<input 
-id="powerInput"
-type="number">
-
-</div>
-
-
-
-
-
-
-
-<div class="parameter">
-
-
-<label>
-Couple (Nm)
-</label>
-
-
-<input 
-id="torqueInput"
-type="number">
-
-</div>
-
-
-
-
-
-
-
-<div class="parameter">
-
-
-<label>
-Ralenti (tr/min)
-</label>
-
-
-<input 
-id="idleRPMInput"
-type="number">
-
-</div>
-
-
-
-
-
-
-
-<div class="parameter">
-
-
-<label>
-Régime maximum (tr/min)
-</label>
-
-
-<input 
-id="maxRPMInput"
-type="number">
-
-</div>
-
-
-
-
-
-
-
-<button 
-id="applySettings"
-class="applyButton">
-
-Appliquer
-
-</button>
-
-
-
-</div>
-
-</div>
-
-
-
-
-
-
-
-<!-- =========================
-        PHYSIQUE v0.0.5
-========================= -->
-
-
-<script src="physics/torqueCurve.js"></script>
-
-<script src="physics/engine.js"></script>
-
-
-
-
-
-<!-- =========================
-        CONTROLEUR JEU
-========================= -->
-
-
-<script src="script.js"></script>
-
-
+    <script src="script.js"></script>
 
 </body>
 
