@@ -8,7 +8,7 @@
 
 
 
-const GAME_VERSION = "v0.0.5";
+const GAME_VERSION = "v0.0.5a";
 
 
 
