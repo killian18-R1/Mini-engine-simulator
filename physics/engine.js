@@ -2,66 +2,376 @@
 ============================================================
  Mini Engine Simulator
  Version : v0.0.5
- Module : Engine
+ Module : Engine Physics
 ============================================================
 */
 
+
+
 const engine = {
 
-    throttle:0,
 
     rpm:1300,
 
-    limiter:false,
 
-    limiterTimer:0
+    throttle:0,
+
+
+    targetThrottle:0,
+
+
+    torque:0,
+
+
+    power:0,
+
+
+    limiter:false
+
 
 };
 
 
 
-function updateThrottle(target, dt){
 
-    const response = vehicleData.engine.throttleResponse;
 
-    engine.throttle += (target-engine.throttle) * response * dt;
 
-    engine.throttle = Math.max(0, Math.min(1, engine.throttle));
+
+/*
+============================================================
+ Gestion accélérateur
+ 0 = relâché
+ 1 = plein gaz
+============================================================
+*/
+
+
+function updateThrottle(dt){
+
+
+
+    let response =
+
+    vehicleData.engine.throttleResponse;
+
+
+
+    engine.throttle +=
+
+    (
+
+        engine.targetThrottle
+
+        -
+
+        engine.throttle
+
+    )
+
+    *
+
+    response
+
+    *
+
+    dt;
+
+
+
+    engine.throttle = Math.max(
+
+        0,
+
+        Math.min(
+
+            1,
+
+            engine.throttle
+
+        )
+
+    );
+
+
 
 }
 
 
 
+
+
+
+
+/*
+============================================================
+ Calcul physique moteur
+============================================================
+*/
+
+
 function updateEngine(dt){
 
-    const torque = getTorque(engine.rpm);
 
-    const availableTorque = torque * engine.throttle;
 
-    const frictionTorque =
-        vehicleData.engine.engineBraking *
-        engine.rpm /
+    let rpm = engine.rpm;
+
+
+
+    /*
+    Couple disponible selon régime
+    */
+
+
+    let availableTorque =
+
+    getTorque(rpm);
+
+
+
+
+
+    /*
+    Couple réellement produit
+
+    dépend de l'ouverture papillon
+    */
+
+
+    let engineTorque =
+
+    availableTorque *
+
+    engine.throttle;
+
+
+
+
+
+    /*
+    Résistance interne moteur
+
+    frottements mécaniques
+    */
+
+
+    let friction =
+
+    vehicleData.engine.friction *
+
+    rpm;
+
+
+
+
+
+    /*
+    Couple résultant
+    */
+
+
+    let netTorque =
+
+    engineTorque
+
+    -
+
+    friction;
+
+
+
+
+
+
+
+    /*
+    Accélération angulaire
+
+    Couple / inertie
+    */
+
+
+    let angularAcceleration =
+
+
+    netTorque
+
+    /
+
+    vehicleData.engine.inertia;
+
+
+
+
+
+
+
+    /*
+    Conversion simplifiée
+
+    pour obtenir une évolution RPM
+    */
+
+
+    engine.rpm +=
+
+
+    angularAcceleration *
+
+    0.5 *
+
+    dt;
+
+
+
+
+
+
+
+    /*
+    Frein moteur
+
+    si gaz fermé
+    */
+
+
+    if(engine.throttle < 0.01){
+
+
+        engine.rpm -=
+
+
+        vehicleData.engine.engineBraking
+
+        *
+
+        1000
+
+        *
+
+        dt;
+
+
+    }
+
+
+
+
+
+
+
+    /*
+    Limites moteur
+    */
+
+
+    if(
+
+        engine.rpm <
+
+        vehicleData.engine.idleRPM
+
+    ){
+
+
+        engine.rpm =
+
+        vehicleData.engine.idleRPM;
+
+
+    }
+
+
+
+
+
+
+    /*
+    Rupteur
+
+    */
+
+
+    if(
+
+        engine.rpm >=
+
+        vehicleData.engine.maxRPM
+
+    ){
+
+
+
+        engine.rpm =
+
         vehicleData.engine.maxRPM;
 
-    const netTorque =
-        availableTorque - frictionTorque;
 
-    const angularAcceleration =
-        netTorque /
-        vehicleData.engine.inertia;
 
-    engine.rpm += angularAcceleration * 500 * dt;
+        engine.limiter=true;
 
-    if(engine.rpm < vehicleData.engine.idleRPM){
 
-        engine.rpm = vehicleData.engine.idleRPM;
 
     }
 
-    if(engine.rpm > vehicleData.engine.maxRPM){
+    else{
 
-        engine.rpm = vehicleData.engine.maxRPM;
+
+        engine.limiter=false;
+
 
     }
+
+
+
+
+
+
+    engine.torque =
+
+    getTorque(engine.rpm);
+
+
+
+
+    engine.power =
+
+    getPowerHP(engine.rpm);
+
+
+
+}
+
+
+
+
+
+
+/*
+============================================================
+ Commande accélérateur externe
+============================================================
+*/
+
+
+function setThrottle(value){
+
+
+
+    engine.targetThrottle =
+
+    Math.max(
+
+        0,
+
+        Math.min(
+
+            1,
+
+            value
+
+        )
+
+    );
+
 
 }
