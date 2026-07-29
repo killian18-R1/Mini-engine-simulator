@@ -167,9 +167,9 @@ async function loadVehicle(){
 
 
 
-    engine.rpm =
-
-    vehicleData.engine.idleRPM;
+ engine.rpm = vehicleData.engine.idleRPM;
+engine.throttle = 0;
+engine.targetThrottle = 0;
 
 
 
@@ -470,12 +470,17 @@ vehicleData.transmission.gears
 
 
 
-let force =
+let engineForce =
+
+engine.torque *
+
+engine.throttle;
 
 
-engine.rpm
 
-/
+let ratioForce =
+
+engineForce /
 
 ratio;
 
@@ -484,9 +489,9 @@ ratio;
 vehicle.speed +=
 
 
-force *
+ratioForce *
 
-0.0005 *
+0.00005 *
 
 dt;
 
@@ -711,7 +716,14 @@ lastTime=time;
 
 
 updateEngine(dt);
-
+console.log(
+"RPM:",
+Math.round(engine.rpm),
+"Gaz:",
+engine.throttle.toFixed(2),
+"Couple:",
+Math.round(engine.torque)
+);
 
 
 updateSpeed(dt);
