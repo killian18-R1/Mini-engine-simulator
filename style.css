@@ -1,7 +1,7 @@
 /*
 ============================================================
  Mini Engine Simulator
- Version : v0.0.4
+ Version : v0.0.5
  Fichier : style.css
 ============================================================
 */
@@ -10,17 +10,11 @@
 :root{
 
     --background:#151515;
-
     --panel:#222222;
-
     --orange:#ff7a00;
-
     --white:#ffffff;
-
     --grey:#999999;
-
     --button:#333333;
-
     --input:#111111;
 
 }
@@ -30,9 +24,7 @@
 *{
 
     margin:0;
-
     padding:0;
-
     box-sizing:border-box;
 
     font-family:Arial, Helvetica, sans-serif;
@@ -62,7 +54,7 @@ body{
 
 
 /* =========================
-        BARRE HAUTE
+        BARRE SUPERIEURE
 ========================= */
 
 
@@ -99,6 +91,8 @@ body{
     color:white;
 
     font-size:20px;
+
+    cursor:pointer;
 
 }
 
@@ -177,6 +171,8 @@ body{
 
 
 
+
+
 #gearDisplay{
 
 
@@ -197,10 +193,10 @@ body{
     display:flex;
 
 
-    align-items:center;
-
-
     justify-content:center;
+
+
+    align-items:center;
 
 
     font-size:52px;
@@ -210,6 +206,8 @@ body{
 
 
 }
+
+
 
 
 
@@ -230,18 +228,13 @@ footer{
 
 .controls{
 
-
     display:flex;
-
 
     justify-content:center;
 
-
     align-items:center;
 
-
     gap:30px;
-
 
 }
 
@@ -279,22 +272,19 @@ footer{
 
 .gearButton:active{
 
-
     background:var(--orange);
-
 
 }
 
 
 
-.gearControls{
 
+
+.gearControls{
 
     display:flex;
 
-
     gap:10px;
-
 
 }
 
@@ -331,10 +321,10 @@ footer{
 #version{
 
 
-    text-align:center;
-
-
     margin-top:10px;
+
+
+    text-align:center;
 
 
     font-size:11px;
@@ -352,8 +342,10 @@ footer{
 
 
 
+
+
 /* =========================
-      PARAMETRES VEHICULE
+        PARAMETRES
 ========================= */
 
 
@@ -439,22 +431,19 @@ footer{
 
 
 
+
+
 .settingsBox h3{
 
 
     color:var(--orange);
 
 
-    margin-top:15px;
-
-
     margin-bottom:15px;
 
 
-    font-size:18px;
-
-
 }
+
 
 
 
@@ -466,10 +455,10 @@ footer{
     position:absolute;
 
 
-    top:10px;
-
-
     right:10px;
+
+
+    top:10px;
 
 
     width:35px;
@@ -505,14 +494,10 @@ footer{
     line-height:1.8;
 
 
-    color:white;
-
-
     font-size:15px;
 
 
 }
-
 
 
 
@@ -536,10 +521,6 @@ hr{
 
 
 
-
-/* =========================
-      PARAMETRES INPUT
-========================= */
 
 
 .parameter{
@@ -569,9 +550,6 @@ hr{
     font-size:14px;
 
 
-    color:white;
-
-
 }
 
 
@@ -587,16 +565,16 @@ hr{
     height:35px;
 
 
-    border:none;
-
-
-    border-radius:8px;
-
-
     background:var(--input);
 
 
     color:white;
+
+
+    border:none;
+
+
+    border-radius:8px;
 
 
     text-align:center;
@@ -606,8 +584,6 @@ hr{
 
 
 }
-
-
 
 
 
@@ -660,18 +636,6 @@ hr{
 
 
 
-.applyButton:active{
-
-
-    transform:scale(0.97);
-
-
-}
-
-
-
-
-
 
 
 /* =========================
@@ -682,15 +646,12 @@ hr{
 @media(max-width:800px){
 
 
-
 .dashboard{
 
 
     flex-direction:column;
 
-
     gap:10px;
-
 
 }
 
@@ -701,11 +662,11 @@ hr{
 
     width:220px;
 
-
     height:220px;
 
 
 }
+
 
 
 
@@ -726,6 +687,7 @@ hr{
 
 
 
+
 .controls{
 
 
@@ -733,6 +695,7 @@ hr{
 
 
 }
+
 
 
 
@@ -749,6 +712,7 @@ hr{
 
 
 }
+
 
 
 
@@ -773,16 +737,6 @@ hr{
 
 
     padding:20px;
-
-
-}
-
-
-
-.parameter input{
-
-
-    width:100px;
 
 
 }
