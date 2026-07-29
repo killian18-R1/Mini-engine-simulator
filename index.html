@@ -17,25 +17,16 @@
 <body>
 
 
-<!-- =========================
-        BARRE SUPERIEURE
-========================= -->
-
-
 <header class="topbar">
 
 
 <button id="soundButton" class="topButton">
-
 🔇
-
 </button>
 
 
 <button id="settingsButton" class="topButton">
-
 ⚙
-
 </button>
 
 
@@ -45,17 +36,11 @@
 
 
 
-<!-- =========================
-        TABLEAU DE BORD
-========================= -->
-
-
 <main class="dashboard">
 
 
 
 <section class="gauge">
-
 
 <canvas 
 id="speedGauge"
@@ -65,9 +50,7 @@ height="300">
 
 
 <div class="gaugeLabel">
-
 KM/H
-
 </div>
 
 
@@ -114,9 +97,6 @@ RPM
 
 
 
-<!-- =========================
-        COMMANDES
-========================= -->
 
 
 <footer>
@@ -181,10 +161,10 @@ Gaz
 
 
 
+
 <div id="version">
 
 </div>
-
 
 
 </footer>
@@ -195,9 +175,6 @@ Gaz
 
 
 
-<!-- =========================
-        MENU PARAMETRES
-========================= -->
 
 
 <div id="settingsPanel">
@@ -208,8 +185,7 @@ Gaz
 
 
 
-<button 
-id="closeSettings">
+<button id="closeSettings">
 
 ✕
 
@@ -238,8 +214,6 @@ Chargement...
 
 
 
-
-
 <h3>
 Modification véhicule
 </h3>
@@ -252,23 +226,14 @@ Modification véhicule
 <div class="parameter">
 
 
-<label for="massInput">
-
+<label>
 Masse (kg)
-
 </label>
 
 
-<input
-
+<input 
 id="massInput"
-
-type="number"
-
-value="200"
-
->
-
+type="number">
 
 </div>
 
@@ -281,23 +246,14 @@ value="200"
 <div class="parameter">
 
 
-<label for="powerInput">
-
+<label>
 Puissance (ch)
-
 </label>
 
 
-<input
-
+<input 
 id="powerInput"
-
-type="number"
-
-value="150"
-
->
-
+type="number">
 
 </div>
 
@@ -310,23 +266,14 @@ value="150"
 <div class="parameter">
 
 
-<label for="torqueInput">
-
+<label>
 Couple (Nm)
-
 </label>
 
 
-<input
-
+<input 
 id="torqueInput"
-
-type="number"
-
-value="110"
-
->
-
+type="number">
 
 </div>
 
@@ -339,23 +286,14 @@ value="110"
 <div class="parameter">
 
 
-<label for="idleRPMInput">
-
+<label>
 Ralenti (tr/min)
-
 </label>
 
 
-<input
-
+<input 
 id="idleRPMInput"
-
-type="number"
-
-value="1300"
-
->
-
+type="number">
 
 </div>
 
@@ -368,23 +306,14 @@ value="1300"
 <div class="parameter">
 
 
-<label for="maxRPMInput">
-
+<label>
 Régime maximum (tr/min)
-
 </label>
 
 
-<input
-
+<input 
 id="maxRPMInput"
-
-type="number"
-
-value="14000"
-
->
-
+type="number">
 
 </div>
 
@@ -394,10 +323,8 @@ value="14000"
 
 
 
-<button
-
+<button 
 id="applySettings"
-
 class="applyButton">
 
 Appliquer
@@ -406,25 +333,38 @@ Appliquer
 
 
 
-
+</div>
 
 </div>
 
 
-</div>
 
 
 
 
 
+<!-- =========================
+        PHYSIQUE v0.0.5
+========================= -->
 
 
 <script src="physics/torqueCurve.js"></script>
+
 <script src="physics/engine.js"></script>
+
+
+
+
+
+<!-- =========================
+        CONTROLEUR JEU
+========================= -->
+
+
 <script src="script.js"></script>
 
 
-</body>
 
+</body>
 
 </html>
