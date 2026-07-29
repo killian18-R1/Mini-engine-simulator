@@ -167,7 +167,7 @@ async function loadVehicle(){
 
 
 
-        vehicle.rpm =
+        engine.rpm =
         vehicleData.engine.idleRPM;
 
 
@@ -322,7 +322,7 @@ applySettings.onclick = ()=>{
 
 
 
-    vehicle.rpm =
+    engine.rpm =
     vehicleData.engine.idleRPM;
 
 
@@ -500,7 +500,7 @@ function updateEngine(dt){
 
 
 
-        vehicle.rpm +=
+        engine.rpm +=
 
         8000 *
 
@@ -517,7 +517,7 @@ function updateEngine(dt){
     else{
 
 
-        vehicle.rpm -=
+        engine.rpm -=
 
         5000 *
 
@@ -529,14 +529,14 @@ function updateEngine(dt){
 
 
 
-    vehicle.rpm = Math.max(
+    engine.rpm = Math.max(
 
         vehicleData.engine.idleRPM,
 
 
         Math.min(
 
-            vehicle.rpm,
+            engine.rpm,
 
             vehicleData.engine.maxRPM
 
@@ -590,7 +590,7 @@ function updateSpeed(dt){
 
         (
 
-        vehicle.rpm /
+        engine.rpm /
 
         vehicleData.engine.maxRPM
 
@@ -845,7 +845,7 @@ function loop(time){
 
         rpmCtx,
 
-        vehicle.rpm,
+        engine.rpm,
 
         vehicleData.engine.maxRPM
 
