@@ -819,7 +819,12 @@ function loop(time){
 
 
 
-    updateEngine(dt);
+updateThrottle(
+    vehicle.throttle ? 1 : 0,
+    dt
+);
+
+updateEngine(dt);
 
     updateSpeed(dt);
 
