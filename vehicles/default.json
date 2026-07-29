@@ -3,62 +3,124 @@
 
     "type": "motorcycle",
 
+
     "mass": 200,
 
+
+
     "wheel": {
+
         "radius": 0.317,
+
         "rollingResistance": 0.015
+
     },
+
+
 
     "aerodynamics": {
+
         "cx": 0.62,
+
         "frontalArea": 0.60
+
     },
 
+
+
     "engine": {
+
+
         "idleRPM": 1300,
+
+
         "maxRPM": 14000,
+
+
         "redlineRPM": 14500,
 
+
+
         "powerHP": 150,
+
+
         "maxTorqueNm": 110,
 
+
+
         "inertia": 0.18,
+
+
+
         "friction": 0.025,
+
+
+
         "engineBraking": 0.15,
+
+
 
         "throttleResponse": 7.5,
 
+
+
         "limiterCutTime": 0.06
+
+
     },
+
+
+
+
 
     "transmission": {
 
+
         "primaryRatio": 1.80,
+
 
         "finalRatio": 2.80,
 
+
         "efficiency": 0.97,
+
+
 
         "gears": [
 
             2.80,
+
             2.05,
+
             1.65,
+
             1.35,
+
             1.15,
+
             1.00
 
         ]
+
     },
+
+
+
+
 
     "electronics": {
 
+
         "abs": false,
+
 
         "tractionControl": false,
 
+
         "wheelieControl": false
 
+
     }
+
+
 }
